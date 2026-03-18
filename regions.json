@@ -1,0 +1,246 @@
+[
+    {
+        "name": "Delft",
+        "region": [
+            "Delft",
+            "Midden-Delfland",
+            "Rijswijk"
+        ],
+        "building": "Stadhuis Delft",
+        "station": "Delft (NS)",
+        "coords": [
+            52.01143356014204,
+            4.35837779430508
+        ],
+        "challenge": "Recreate any painting by Johan Vermeer. You must take a photograph from within the town square that clearly resembles the original painting.",
+        "time": 20
+    },
+    {
+        "name": "Den Haag Centrum",
+        "region": [
+            "Den Haag - Centrum",
+            "Den Haag - Haagse Hout",
+            "Den Haag - Laak"
+        ],
+        "building": "Het Oude Stadhuis",
+        "station": "Gravenstraat (HTM), Centrum (HTM), Spui (HTM)",
+        "coords": [
+            52.07765536820172,
+            4.308076480561379
+        ],
+        "challenge": "Find 3 streets named after historical figures, and for each street state the figure's profession or what they are known for. You may not use the internet for research but you can read signs and information boards.",
+        "time": 15
+    },
+    {
+        "name": "Den Haag Leyenburg",
+        "region": [
+            "Den Haag - Escamp",
+            "Den Haag - Loosduinen",
+            "Westland"
+        ],
+        "building": "Haga Ziekenhuis",
+        "station": "Leyenburg (HTM)",
+        "coords": [
+            52.056678732658185,
+            4.263861490892567
+        ],
+        "challenge": "Find a hospital sign with at least 10 words and recite the entire text from memory. You can practice as many times as you want, but you only have one final attempt.",
+        "time": 20
+    },
+    {
+        "name": "Dordrecht",
+        "region": [
+            "Barendrecht",
+            "Dordrecht",
+            "Ridderkerk",
+            "Zwijndrecht"
+        ],
+        "building": "Stadhuis Dordrecht",
+        "station": "Dordrecht (NS)",
+        "coords": [
+            51.81392373400935,
+            4.6643503427848
+        ],
+        "challenge": "Dordrecht claims to be the oldest city in The Netherlands. Find a building that shows a date before 1600.",
+        "time": 15
+    },
+    {
+        "name": "Gouda",
+        "region": [
+            "Gouda",
+            "Waddinxveen",
+            "Zuidplas"
+        ],
+        "building": "Stadhuis Gouda",
+        "station": "Gouda (NS)",
+        "coords": [
+            52.011530067968174,
+            4.710474884772183
+        ],
+        "challenge": "Construct a stack of at least three different cheese-related objects. The stack must stand for 10 seconds without support.",
+        "time": 10
+    },
+    {
+        "name": "Leiden",
+        "region": [
+            "Katwijk",
+            "Oegsgeest",
+            "Leiden",
+            "Leiderdorp",
+            "Voorschoten",
+            "Wassenaar",
+            "Zoeterwoude"
+        ],
+        "building": "Stadhuis Leiden",
+        "station": "Leiden Centraal (NS)",
+        "coords": [
+            52.158287812747744,
+            4.490843093702551
+        ],
+        "challenge": "Leiden has more than 100 poems written on walls throughout the city. Find and photograph 3 different poems, each in a different language.",
+        "time": 30
+    },
+    {
+        "name": "Leidschendam",
+        "region": [
+            "Leidschendam-Voorburg",
+            "Den Haag - Leidschenveen-Ypenburg"
+        ],
+        "building": "Westfield Mall of the Netherlands",
+        "station": "Mall of the Netherlands (HTM), Weigelia (HTM)",
+        "coords": [
+            52.08959051149623,
+            4.3812609848004955
+        ],
+        "challenge": "Find 3 shops in the mall with brand names in different languages.",
+        "time": 15
+    },
+    {
+        "name": "Pijnacker",
+        "region": [
+            "Lansingerland",
+            "Pijnacker-Nootdorp"
+        ],
+        "building": "H. Johannes de Doperkerk",
+        "station": "Pijnacker Centrum (RET)",
+        "coords": [
+            52.02061207470058,
+            4.434230575305598
+        ],
+        "challenge": "Using only objects you can find nearby, build a small structure that resembles a greenhouse. It must have at least one transparent element.",
+        "time": 20
+    },
+    {
+        "name": "Rotterdam Centrum",
+        "region": [
+            "Rotterdam - Centrum",
+            "Rotterdam - Delfshaven",
+            "Rotterdam - Overschie",
+            "Rotterdam - Noord"
+        ],
+        "building": "Stadhuis Rotterdam",
+        "station": "Stadhuis (RET)",
+        "coords": [
+            51.922800809477245,
+            4.479531852937166
+        ],
+        "challenge": "Rotterdam is home to many tall buildings following reconstruction after WWII. Choose a building with at least 5 floors and guess its height. You may not use the internet for research, but you can read signs and information boards. After locking in your guess, find the actual height using https://osmbuildings.org/?lat=51.92280&lon=4.47953. Your guess must be within 10m either side of the actual height to succeed.",
+        "time": 15
+    },
+    {
+        "name": "Rotterdam Kralingen",
+        "region": [
+            "Capelle aan den IJssel",
+            "Rotterdam - Hillegersberg-Schiebroek",
+            "Rotterdam - Kralingen-Crooswijk",
+            "Rotterdam - Prins Alexander"
+        ],
+        "building": "Molen De Ster",
+        "station": "Essenlaan (RET), Voorschoterlaan (RET)",
+        "coords": [
+            51.93160362592005,
+            4.521255216472422
+        ],
+        "challenge": "One player will have 5 minutes to hide somewhere in the Kralingse Bos. They must hide at least 200m away from the windmill, and cannot have a clear sight line to the seeker. After that, the other player has 15 minutes in which to find them. If the hider is found within the time limit, you succeed.",
+        "time": 20
+    },
+    {
+        "name": "Rotterdam Zuid",
+        "region": [
+            "Rotterdam - Charlois",
+            "Rotterdam - Feijenoord",
+            "Rotterdam - IJsselmonde",
+            "Rotterdam - Waalhaven"
+        ],
+        "building": "Ahoy Arena",
+        "station": "Zuidplein (RET)",
+        "coords": [
+            51.88276161598165,
+            4.488996379231698
+        ],
+        "challenge": "In 2021, Rotterdam hosted the Eurovision Song Contest. Sing the chorus of any song that competed that year (see https://open.spotify.com/playlist/5h0sQpJnLVzgy5iOH1UNcl). You can practice as many times as you want, but you only have one final attempt.",
+        "time": 10
+    },
+    {
+        "name": "Scheveningen",
+        "region": [
+            "Den Haag - Scheveningen",
+            "Den Haag - Segbroek"
+        ],
+        "building": "Grand Hotel Amrâth Kurhaus",
+        "station": "Kurhaus (HTM)",
+        "coords": [
+            52.113127128084486,
+            4.28186012263466
+        ],
+        "challenge": "Build a sandcastle at least 20cm tall with two distinct towers. The sandcastle must be freestanding and only be made of sand and water.",
+        "time": 15
+    },
+    {
+        "name": "Spijkenisse",
+        "region": [
+            "Albrandswaard",
+            "Rotterdam - Hoogvliet",
+            "Rotterdam - Pernis",
+            "Nissewaard"
+        ],
+        "building": "Euro Banknote Bridges",
+        "station": "Spijkenisse Centrum (RET)",
+        "coords": [
+            51.84835832665967,
+            4.338393144247804
+        ],
+        "challenge": "On Oude Maasweg and Elementenweg you will find 6 colourful bridges designed to resemble the bridges on Euro banknotes. For each bridge, guess the value of the note which it appears on. You may not use the internet for research or look at real banknotes until you lock in your answers. You must get at least 4 out of 6 correct to succeed. (Be aware that Google Maps will tell you the answers, so try to avoid looking!)",
+        "time": 20
+    },
+    {
+        "name": "Vlaardingen",
+        "region": [
+            "Maassluis",
+            "Schiedam",
+            "Vlaardingen"
+        ],
+        "building": "Stadhuis Vlaardingen",
+        "station": "Vlaardingen Centrum (RET)",
+        "coords": [
+            51.90799401694751,
+            4.341935719593607
+        ],
+        "challenge": "Vlaardingen has a rich history in the fishing industry. Find a monument or artwork that commemorates this heritage.",
+        "time": 15
+    },
+    {
+        "name": "Zoetermeer",
+        "region": [
+            "Zoetermeer"
+        ],
+        "building": "Gemeente Zoetermeer",
+        "station": "Stadhuis (HTM)",
+        "coords": [
+            52.060990915918445,
+            4.4937548243187795
+        ],
+        "challenge": "Zoetermeer was expanded in the 1960s as a groeikern to relieve housing pressure in Den Haag and Rotterdam. Perform and film a 30 second advertisement encouraging people to move to Zoetermeer. The video must include spoken dialogue and visual footage of buildings in Zoetermeer. You may use multiple clips with a combined length of 30 seconds, these do not need to be edited together within the time limit.",
+        "time": 15
+    }
+]
