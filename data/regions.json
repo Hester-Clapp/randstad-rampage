@@ -1,7 +1,7 @@
 [
     {
         "name": "Delft",
-        "region": [
+        "districts": [
             "Delft",
             "Midden-Delfland",
             "Rijswijk"
@@ -18,7 +18,7 @@
     },
     {
         "name": "Den Haag Centrum",
-        "region": [
+        "districts": [
             "Den Haag - Centrum",
             "Den Haag - Haagse Hout",
             "Den Haag - Laak"
@@ -35,7 +35,7 @@
     },
     {
         "name": "Den Haag Leyenburg",
-        "region": [
+        "districts": [
             "Den Haag - Escamp",
             "Den Haag - Loosduinen",
             "Rotterdam - Hoek van Holland",
@@ -53,7 +53,7 @@
     },
     {
         "name": "Dordrecht",
-        "region": [
+        "districts": [
             "Barendrecht",
             "Dordrecht",
             "Ridderkerk",
@@ -71,7 +71,7 @@
     },
     {
         "name": "Gouda",
-        "region": [
+        "districts": [
             "Gouda",
             "Waddinxveen",
             "Zuidplas"
@@ -88,7 +88,7 @@
     },
     {
         "name": "Leiden",
-        "region": [
+        "districts": [
             "Katwijk",
             "Oegsgeest",
             "Leiden",
@@ -109,7 +109,7 @@
     },
     {
         "name": "Leidschendam",
-        "region": [
+        "districts": [
             "Leidschendam-Voorburg",
             "Den Haag - Leidschenveen-Ypenburg"
         ],
@@ -125,7 +125,7 @@
     },
     {
         "name": "Pijnacker",
-        "region": [
+        "districts": [
             "Lansingerland",
             "Pijnacker-Nootdorp"
         ],
@@ -141,7 +141,7 @@
     },
     {
         "name": "Rotterdam Centrum",
-        "region": [
+        "districts": [
             "Rotterdam - Centrum",
             "Rotterdam - Delfshaven",
             "Rotterdam - Overschie",
@@ -159,7 +159,7 @@
     },
     {
         "name": "Rotterdam Kralingen",
-        "region": [
+        "districts": [
             "Capelle aan den IJssel",
             "Rotterdam - Hillegersberg-Schiebroek",
             "Rotterdam - Kralingen",
@@ -177,7 +177,7 @@
     },
     {
         "name": "Rotterdam Zuid",
-        "region": [
+        "districts": [
             "Rotterdam - Charlois",
             "Rotterdam - Feijenoord",
             "Rotterdam - IJsselmonde",
@@ -195,7 +195,7 @@
     },
     {
         "name": "Scheveningen",
-        "region": [
+        "districts": [
             "Den Haag - Scheveningen",
             "Den Haag - Segbroek"
         ],
@@ -211,7 +211,7 @@
     },
     {
         "name": "Spijkenisse",
-        "region": [
+        "districts": [
             "Albrandswaard",
             "Rotterdam - Hoogvliet",
             "Rotterdam - Pernis",
@@ -229,7 +229,7 @@
     },
     {
         "name": "Vlaardingen",
-        "region": [
+        "districts": [
             "Maassluis",
             "Schiedam",
             "Vlaardingen"
@@ -246,7 +246,7 @@
     },
     {
         "name": "Zoetermeer",
-        "region": [
+        "districts": [
             "Zoetermeer"
         ],
         "building": "Gemeente Zoetermeer",

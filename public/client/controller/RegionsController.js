@@ -17,6 +17,10 @@ export class RegionsController extends Controller {
 
         this.geo.addEventListener("move", (e) => this.showPosition(e.detail))
         this.showPosition(this.geo.position)
+
+        this.geo.addEventListener("move", async ({ detail: { latitude, longitude } }) => {
+            console.log(await fetch(`/regionQuery?lat=${latitude}&lon=${longitude}`).then(res => res.json()))
+        }, { once: true })
     }
 
     showPosition(position) {
