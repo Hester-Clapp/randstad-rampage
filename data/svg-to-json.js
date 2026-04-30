@@ -2,6 +2,8 @@ const fs = require('fs');
 
 const html = fs.readFileSync('rotterdam.html', 'utf8');
 
+let max_x, min_x, max_y, min_y
+
 function tokenize(d) {
     const tokens = [];
     const re = /([MmLlHhVvCcSsQqTtAaZz])|(-?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?)/g;
@@ -94,23 +96,43 @@ function parsePath(d) {
 function transformPath(path) {
     const transformed = []
     for (const [x, y] of path) {
-        const lon = transform(x, 1220, 596, 0.31) + 3
-        const lat = 53 - transform(y, 515, 604, 0.08)
+        // const lon = transform(x, 1220, 596, 0.31) + 3
+        // const lat = 53 - transform(y, 515, 604, 0.08)
 
-        transformed.push([lat, lon])
+        // if (!max_x || x > max_x) max_x = x
+        // if (!min_x || x < min_x) min_x = x
+        // if (!max_y || y > max_y) max_y = y
+        // if (!min_y || y < min_y) min_y = y
+
+        transformed.push([transformX(x), transformY(y)])
     }
     return transformed
 }
 
-function transform(point, rotterdamSvgWidth, translate, scale) {
-    const boundariesSvgWidth = 2
-    const boundariesSvgWidthPx = 1211.33
+function transformX(x) {
+    const min_x = 191.741
+    const max_x = 1216.2999999999997
+    const min_lon = 4.071217927850176
+    const max_lon = 4.6019807833254776
 
-    const relative = point / rotterdamSvgWidth
-    const px = relative * boundariesSvgWidthPx
-    const transformedPx = (px - translate) * scale + translate
-    const transformedRelative = transformedPx / boundariesSvgWidthPx
-    return transformedRelative * boundariesSvgWidth
+    const x_height = max_x - min_x
+    const lon_height = max_lon - min_lon
+
+    const relative = (x - min_x) / x_height
+    return relative * lon_height + min_lon
+}
+
+function transformY(y) {
+    const min_y = 40.252
+    const max_y = 513.4960000000001
+    const min_lat = 51.8423026721512
+    const max_lat = 51.99427425109035
+
+    const y_height = max_y - min_y
+    const lat_height = max_lat - min_lat
+
+    const relative = (y - min_y) / y_height
+    return max_lat - relative * lat_height
 }
 
 const result = {};
@@ -130,3 +152,5 @@ for (const [, attrs] of html.matchAll(pathRe)) {
 fs.writeFileSync('rotterdam.json', JSON.stringify(result, null, 4));
 console.log('Written rotterdam.json with', Object.keys(result).length, 'districts:',
     Object.keys(result).join(', '));
+
+console.log(`x from ${min_x} to ${max_x}, y from ${min_y} to ${max_y}`)
