@@ -1,38 +1,25 @@
-import boundaries from '../../data/boundaries.json' with { type: 'json' };
 import regions from '../../data/regions.json' with { type: 'json' };
+import { DistrictQueryHandler } from "./DistrictQueryHandler.js"
 
 export class RegionService {
-    async getDistrict({ latitude, longitude }) {
-        for (const [name, polygon] of Object.entries(boundaries)) {
-            if (this.pointInPolygon(longitude, latitude, polygon)) {
-                return name;
-            }
-        }
-        return null;
+
+    constructor() {
+        this.dqh = new DistrictQueryHandler()
+        this.districts = this.dqh.districts
     }
 
-    async getRegion(position) {
-        const currentDistrict = await this.getDistrict(position)
-        for (const region of regions) {
-            for (const district of region.districts) {
-                if (district === currentDistrict) return region
-            }
-        }
+    whichRegionContains(position) {
+        const district = this.dqh.getDistrict(position)
+        if (district === null) return null
+        const name = this.districts.getRegion(district)
+        return name
     }
 
-    // Ray casting algorithm — counts how many times a ray from the point
-    // crosses the polygon boundary; odd = inside.
-    pointInPolygon(x, y, polygon) {
-        let inside = false;
-        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-            const [xi, yi] = polygon[i];
-            const [xj, yj] = polygon[j];
-            const [dx, dy] = [xj - xi, yj - yi]
-            const [cx, cy] = [x - xi, y - yi]
-            if ((yi > y) !== (yj > y) && x < (dx * cx) / dy + xi) {
-                inside = !inside;
-            }
-        }
-        return inside;
+    getRegionData(name) {
+        if (!name) return null
+
+        const candidates = regions.filter(region => region.name === name)
+        if (candidates.length > 0) return candidates[0]
+        return null
     }
 }

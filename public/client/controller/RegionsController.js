@@ -17,23 +17,19 @@ export class RegionsController extends Controller {
 
         this.geo.addEventListener("move", (e) => this.showPosition(e.detail))
         this.showPosition(this.geo.position)
-
-        this.geo.addEventListener("move", async ({ detail: { latitude, longitude } }) => {
-            console.log(await fetch(`/regionQuery?lat=${latitude}&lon=${longitude}`).then(res => res.json()))
-        }, { once: true })
     }
 
-    showPosition(position) {
+    async showPosition(position) {
         const { latitude, longitude, accuracy, age } = position
-        document.querySelector("output#coords").innerHTML = `Lat: ${latitude}N, Lon: ${longitude}E, Accuracy: ${accuracy}, Age: ${age}`
 
-        const denHaag = {
-            "latitude": 52.07765536820172,
-            "longitude": 4.308076480561379,
-            "accuracy": 0
-        }
-        const distance = this.geo.distance(position, denHaag)
-
-        document.querySelector("output#distance").innerHTML = `${distance.lower}m and ${distance.upper}m`
+        const res = await fetch(`/regionQuery?lat=${latitude}&lon=${longitude}`)
+        console.log(res)
+        const region = await res.json()
+        console.log(region)
+        const distance = this.geo.distance(position, region.position)
+        
+        document.querySelector("output#coords").textContent = `Lat: ${latitude}N, Lon: ${longitude}E, Accuracy: ${accuracy}, Age: ${age}`
+        document.querySelector("output#region").textContent = region.name
+        document.querySelector("output#distance").textContent = `${distance.lower}m and ${distance.upper}m`
     }
 }
