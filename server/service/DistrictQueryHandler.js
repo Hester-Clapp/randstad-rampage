@@ -13,7 +13,6 @@ export class DistrictQueryHandler {
     }
 
     getDistrict(position) {
-        console.log(position)
         if (!position) throw new Error("Invalid position")
         if (!position.latitude) throw new Error("Invalid position, missing latitude")
         if (!position.longitude) throw new Error("Invalid position, missing longitude")
@@ -21,7 +20,6 @@ export class DistrictQueryHandler {
         if (typeof position.longitude === "string") position.longitude = Number(position.longitude)
 
         const match = this.bigTile.get(position) || this.smallTile.get(position)
-        console.log(match)
         if (match) return match
 
         // const candidates = this.boundaryTile.get(position)

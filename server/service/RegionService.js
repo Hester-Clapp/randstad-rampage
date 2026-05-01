@@ -1,11 +1,18 @@
-import regions from '../../data/regions.json' with { type: 'json' };
 import { DistrictQueryHandler } from "./DistrictQueryHandler.js"
+import { RegionRepository } from "../database/RegionRepository.js"
 
 export class RegionService {
 
-    constructor() {
-        this.dqh = new DistrictQueryHandler()
-        this.districts = this.dqh.districts
+    constructor(dqh, regions) {
+        this.dqh = dqh;
+        this.districts = dqh.districts;
+        this.regions = regions;
+    }
+
+    static async create() {
+        const dqh = new DistrictQueryHandler();
+        const regions = await RegionRepository.create();
+        return new RegionService(dqh, regions);
     }
 
     whichRegionContains(position) {
@@ -15,11 +22,24 @@ export class RegionService {
         return name
     }
 
-    getRegionData(name) {
-        if (!name) return null
-
-        const candidates = regions.filter(region => region.name === name)
-        if (candidates.length > 0) return candidates[0]
-        return null
+    get(name) {
+        return this.regions.get(name)
     }
+    
+    async getStatus(name) {
+        return this.regions.getStatus(name)
+    }
+
+    async claim(regionName, teamName) {
+        return this.regions.claim(regionName, teamName)
+    }
+
+    async challenge(regionName, teamName, success) {
+        return this.regions.challenge(regionName, teamName, success)
+    }
+
+    async reset() {
+        return this.regions.reset()
+    }
+
 }
