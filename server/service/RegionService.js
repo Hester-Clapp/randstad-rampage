@@ -26,6 +26,25 @@ export class RegionService {
         return this.regions.get(name)
     }
     
+    getPolygons(region) {
+        const polygons = []
+        for (const districtName of region.districts) {
+            const polygon = this.districts.get(districtName)
+            polygons.push(this.reverseLatLon(polygon))
+        }
+
+        return { ...region, polygons }
+    }
+
+    reverseLatLon(polygon) {
+        return polygon.map(([lon, lat]) => [lat, lon])
+    }
+
+    getAllPolygons() {
+        const regions = this.regions.getAllRegions()
+        return regions.map(region => this.getPolygons(region))
+    }
+
     async getStatus(name) {
         return this.regions.getStatus(name)
     }

@@ -2,6 +2,7 @@ import { Controller } from './Controller.js';
 import { loadPage } from './pageLoader.js';
 
 import { GeoLocationService } from '../service/GeoLocationService.js';
+import { MapHandler } from '../service/MapHandler.js';
 
 export class RegionsController extends Controller {
     res
@@ -14,6 +15,7 @@ export class RegionsController extends Controller {
         super.afterLoad()
 
         this.geo = new GeoLocationService()
+        this.map = new MapHandler()
 
         this.geo.addEventListener("move", (e) => this.showPosition(e.detail))
         this.showPosition(this.geo.position)

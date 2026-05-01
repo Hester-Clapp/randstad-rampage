@@ -19,6 +19,10 @@ export class RegionRepository {
         return null;
     }
 
+    getAllRegions() {
+        return [...regions]
+    }
+
     async getStatus(name) {
         const claimerEntry = await this.kv.get(["region", name, "claimer"]);
 

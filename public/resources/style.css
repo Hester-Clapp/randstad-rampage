@@ -1,0 +1,8 @@
+header {
+    height: 20vh;
+    overflow: scroll;
+}
+
+#map {
+    height: calc(80vh - 1rem);
+}

@@ -17,6 +17,10 @@ async function handle(req) {
 
     const region = (segments[0] === "region") ? segments[1] : null
 
+    if (GET && pathname === "/mapData") {
+        const data = await services.region.getAllPolygons()
+        return json(data)
+    }
 
     if (GET && pathname === "/regionQuery") {
         const latitude = Number(searchParams.get("lat"))
@@ -59,7 +63,7 @@ async function handle(req) {
 }
 
 function json(data, status = 200) {
-    console.log(data)
+    // console.log(data)
     return new Response(JSON.stringify(data), {
         status,
         headers: { "Content-Type": "application/json" },

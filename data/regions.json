@@ -6,6 +6,7 @@
             "Midden-Delfland",
             "Rijswijk"
         ],
+        "color": 0,
         "building": "Stadhuis Delft",
         "station": "Delft (NS)",
         "position": {
@@ -23,6 +24,7 @@
             "Den Haag - Haagse Hout",
             "Den Haag - Laak"
         ],
+        "color": 1,
         "building": "Het Oude Stadhuis",
         "station": "Gravenstraat (HTM), Centrum (HTM), Spui (HTM)",
         "position": {
@@ -41,6 +43,7 @@
             "Rotterdam - Hoek van Holland",
             "Westland"
         ],
+        "color": 2,
         "building": "Haga Ziekenhuis",
         "station": "Leyenburg (HTM)",
         "position": {
@@ -59,6 +62,7 @@
             "Ridderkerk",
             "Zwijndrecht"
         ],
+        "color": 2,
         "building": "Stadhuis Dordrecht",
         "station": "Dordrecht (NS)",
         "position": {
@@ -76,6 +80,7 @@
             "Waddinxveen",
             "Zuidplas"
         ],
+        "color": 2,
         "building": "Stadhuis Gouda",
         "station": "Gouda (NS)",
         "position": {
@@ -90,13 +95,14 @@
         "name": "Leiden",
         "districts": [
             "Katwijk",
-            "Oegsgeest",
+            "Oegstgeest",
             "Leiden",
             "Leiderdorp",
             "Voorschoten",
             "Wassenaar",
             "Zoeterwoude"
         ],
+        "color": 3,
         "building": "Stadhuis Leiden",
         "station": "Leiden Centraal (NS)",
         "position": {
@@ -113,6 +119,7 @@
             "Leidschendam-Voorburg",
             "Den Haag - Leidschenveen-Ypenburg"
         ],
+        "color": 2,
         "building": "Westfield Mall of the Netherlands",
         "station": "Mall of the Netherlands (HTM), Weigelia (HTM)",
         "position": {
@@ -129,6 +136,7 @@
             "Lansingerland",
             "Pijnacker-Nootdorp"
         ],
+        "color": 3,
         "building": "H. Johannes de Doperkerk",
         "station": "Pijnacker Centrum (RET)",
         "position": {
@@ -147,6 +155,7 @@
             "Rotterdam - Overschie",
             "Rotterdam - Noord"
         ],
+        "color": 2,
         "building": "Stadhuis Rotterdam",
         "station": "Stadhuis (RET)",
         "position": {
@@ -165,6 +174,7 @@
             "Rotterdam - Kralingen",
             "Rotterdam - Prins Alexander"
         ],
+        "color": 0,
         "building": "Molen De Ster",
         "station": "Essenlaan (RET), Voorschoterlaan (RET)",
         "position": {
@@ -180,9 +190,9 @@
         "districts": [
             "Rotterdam - Charlois",
             "Rotterdam - Feijenoord",
-            "Rotterdam - IJsselmonde",
-            "Rotterdam - Waalhaven"
+            "Rotterdam - IJsselmonde"
         ],
+        "color": 1,
         "building": "Ahoy Arena",
         "station": "Zuidplein (RET)",
         "position": {
@@ -199,6 +209,7 @@
             "Den Haag - Scheveningen",
             "Den Haag - Segbroek"
         ],
+        "color": 0,
         "building": "Grand Hotel Amrâth Kurhaus",
         "station": "Kurhaus (HTM)",
         "position": {
@@ -217,6 +228,7 @@
             "Rotterdam - Pernis",
             "Nissewaard"
         ],
+        "color": 3,
         "building": "Euro Banknote Bridges",
         "station": "Spijkenisse Centrum (RET)",
         "position": {
@@ -234,6 +246,7 @@
             "Schiedam",
             "Vlaardingen"
         ],
+        "color": 1,
         "building": "Stadhuis Vlaardingen",
         "station": "Vlaardingen Centrum (RET)",
         "position": {
@@ -249,6 +262,7 @@
         "districts": [
             "Zoetermeer"
         ],
+        "color": 1,
         "building": "Gemeente Zoetermeer",
         "station": "Stadhuis (HTM)",
         "position": {
