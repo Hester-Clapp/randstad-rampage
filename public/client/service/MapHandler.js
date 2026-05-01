@@ -20,16 +20,17 @@ export class MapHandler {
                     color: this.colors[region.color],
                     fillColor: this.colors[region.color],
                     fillOpacity: 0.1
-                })
-                    .bindPopup(region.name)
-                    .addTo(this.map)
+                }).bindPopup(region.name).addTo(this.map)
+
+                // if (region.name.startsWith("Rotterdam")) {
+                //     for (const [lat, lon] of polygon) {
+                //         L.marker([lat, lon]).bindPopup(`[${lon}, ${lat}]`).addTo(this.map)
+                //     }
+                // }
             }
 
             L.marker([region.position.latitude, region.position.longitude])
-                .bindPopup(region.building)
-                .addTo(this.map)
+                .bindPopup(region.building).addTo(this.map)
         }
     }
-
-    async 
 }

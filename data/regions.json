@@ -3,8 +3,8 @@
         "name": "Delft",
         "districts": [
             "Delft",
-            "Midden-Delfland",
-            "Rijswijk"
+            "Rijswijk",
+            "Midden-Delfland"
         ],
         "color": 0,
         "building": "Stadhuis Delft",

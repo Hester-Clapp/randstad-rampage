@@ -5,7 +5,7 @@ import districtToRegion from '../../data/district-to-region.json' with { type: '
 export class DistrictRepository {
 
     get(name) {
-        return districts[name]
+        return districts[name] || districts[this.getRegion(name)]
     }
 
     getRegion(name) {
