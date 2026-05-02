@@ -7,6 +7,9 @@ export class MapHandler {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(this.map);
+
+        this.regions = {}
+        this.buildings = {}
         
         this.populate()
     }
@@ -16,20 +19,20 @@ export class MapHandler {
 
         for (const region of regions) {
             for (const polygon of region.polygons) {
-                L.polygon(polygon, {
+                this.regions[region.name] = L.polygon(polygon, {
                     color: this.colors[region.color],
                     fillColor: this.colors[region.color],
                     fillOpacity: 0.1
                 }).bindPopup(region.name).addTo(this.map)
 
                 // if (region.name.startsWith("Rotterdam")) {
-                //     for (const [lat, lon] of polygon) {
-                //         L.marker([lat, lon]).bindPopup(`[${lon}, ${lat}]`).addTo(this.map)
-                //     }
+                    for (const [lat, lon] of polygon) {
+                        L.marker([lat, lon]).bindPopup(`[${lon}, ${lat}]`).addTo(this.map)
+                    }
                 // }
             }
 
-            L.marker([region.position.latitude, region.position.longitude])
+            this.buildings[region.name] = L.marker([region.position.latitude, region.position.longitude])
                 .bindPopup(region.building).addTo(this.map)
         }
     }

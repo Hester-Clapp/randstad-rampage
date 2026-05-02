@@ -34,7 +34,13 @@ export class RegionRepository {
             }
         }
 
-        return successfulChallenger || claimerEntry.value || null;
+        const owner = successfulChallenger || claimerEntry.value || null;
+
+        return {
+            claimed: claimerEntry.value ? true : false,
+            locked: successfulChallenger ? true : false,
+            owner
+        }
     }
 
     async claim(regionName, teamName) {
