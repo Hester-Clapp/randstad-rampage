@@ -16,7 +16,7 @@ async function handle(req) {
     const PUT = (req.method === "PUT")
     const DELETE = (req.method === "DELETE")
 
-    const region = (segments[0] === "region") ? segments[1] : null
+    const region = (segments[0] === "region") ? decodeURIComponent(segments[1]) : null
     if (region && !services.region.isValid(region)) return new Response(`Invalid region: ${region}`, { status: 400 })
 
     if (GET && pathname === "/mapData") {

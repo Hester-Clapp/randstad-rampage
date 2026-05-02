@@ -3,7 +3,7 @@ export function getColor(teamName) {
     if (teamName === "Unknown") return "grey"
 
     let hash = 0;
-    for (let i = 0; i < teamName.length; i++) {
+    for (let i = teamName.length; i >= 0; i--) {
         hash = (Math.imul(31, hash) + teamName.charCodeAt(i)) | 0;
     }
     const hue = (hash >>> 0) % 360;

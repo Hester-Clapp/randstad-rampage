@@ -1,7 +1,12 @@
+import { UIFactory } from "./UIFactory.js"
+
 import { getColor } from "../../utils/team-color.js"
+import { getRegionStatus } from "../../utils/requests.js"
 
 export class MapHandler {
     constructor() {
+        this.ui = new UIFactory()
+
         this.map = L.map('map').setView([52, 4.35], 12);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -18,14 +23,30 @@ export class MapHandler {
         const regions = await fetch("/mapData").then(res => res.json())
 
         for (const region of regions) {
-            this.regions[region.name] = L.polygon(region.polygon, {
+            const polygon = L.polygon(region.polygon, {
                 color: "white",
                 fillColor: "white",
                 fillOpacity: 0.2
-            }).bindPopup(region.name).addTo(this.map)
+            }).bindPopup("").addTo(this.map)
 
-            this.buildings[region.name] = L.marker([region.position.latitude, region.position.longitude])
-                .bindPopup(region.building).addTo(this.map)
+            const marker = L.marker([region.position.latitude, region.position.longitude])
+                .bindPopup().addTo(this.map)
+
+            polygon.addEventListener("click", async () => {
+                const { owner } = await getRegionStatus(region)
+                const el = this.ui.regionTitle(region, owner)
+                polygon.setPopupContent(el.outerHTML)
+                polygon.openPopup()
+            })
+
+            marker.addEventListener("click", () => {
+                const el = this.ui.buildingTitle(region)
+                marker.setPopupContent(el.outerHTML)
+                marker.openPopup()
+            })
+
+            this.regions[region.name] = polygon
+            this.buildings[region.name] = marker
         }
     }
 

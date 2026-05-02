@@ -34,3 +34,22 @@ export class GeoLocationService extends EventTarget {
         if (this.watchId) navigator.geolocation.clearWatch(this.watchId)
     }
 }
+
+export class GeoLocationMock extends GeoLocationService {
+    lastPosition = { coords: { latitude: 52, longitude: 4.35, accuracy: 10 }, timestamp: Date.now() }
+
+    constructor() {
+        super()
+
+        this.permission = Promise.resolve()
+        setInterval(() => this.updatePosition(this.lastPosition), 10000)
+    }
+
+    async updatePosition(position) {
+        this.dispatchEvent(new CustomEvent('move', { detail: this.lastPosition }))
+    }
+
+    cleanup() {
+        
+    }
+}

@@ -2,16 +2,19 @@ import { Controller } from './Controller.js';
 import { loadPage } from './pageLoader.js';
 
 import { GeoLocationService } from '../service/GeoLocationService.js';
+import { GeoLocationMock } from '../service/GeoLocationService.js';
 import { DistanceCalculator } from '../service/DistanceCalculator.js';
 import { MapHandler } from '../service/MapHandler.js';
+import { UIFactory } from '../service/UIFactory.js';
 
-import { getColorNeutralBlack } from "../../utils/team-color.js"
+import { whichRegionContains, getRegionStatus, claimRegion } from "../../utils/requests.js"
 
 export class RegionsController extends Controller {
     async beforeLoad() {
         super.beforeLoad()
         
         this.dist = new DistanceCalculator()
+        this.ui = new UIFactory()
 
         this.region = null
         this.teamName = sessionStorage.getItem("teamName")
@@ -20,7 +23,8 @@ export class RegionsController extends Controller {
     async afterLoad() {
         super.afterLoad()
 
-        this.geo = new GeoLocationService()
+        // this.geo = new GeoLocationService()
+        this.geo = new GeoLocationMock()
         this.map = new MapHandler()
 
         document.querySelector("button#claimButton").addEventListener("click", () => this.claim())
@@ -36,10 +40,9 @@ export class RegionsController extends Controller {
         if (!region || !region.name) throw new Error("Invalid region")
         if (!region.status) throw new Error("Unknown region status")
         if (region.status.claimed) throw new Error("Region already claimed")
-    
-        const res = await fetch(`/region/${this.region.name}/claim?teamName=${this.teamName}`, { method: "PUT" })
-        if (!res.ok) throw new Error(await res.text())
 
+        await claimRegion(this.region, this.teamName)
+    
         navigator.vibrate(50)
         await this.updateRegionStatus()
         this.showCurrentRegion()
@@ -51,7 +54,7 @@ export class RegionsController extends Controller {
         const { latitude, longitude } = position
         if (!latitude || !longitude) return
 
-        this.region = await fetch(`/regionQuery?lat=${latitude}&lon=${longitude}`).then(res => res.json())
+        this.region = await whichRegionContains(position)
         if (!this.region) return
 
         await this.updateRegionStatus()
@@ -59,8 +62,7 @@ export class RegionsController extends Controller {
     }
 
     async updateRegionStatus(region = this.region) {
-        region.status = await fetch(`/region/${region.name}/status`)
-            .then(res => res.ok ? res.json() : { owner: "Unknown", claimed: true, locked: true })
+        region.status = await getRegionStatus(region)
 
         this.map.setOwner(region.name, region.status.owner)
 
@@ -76,11 +78,7 @@ export class RegionsController extends Controller {
         
         const distance = this.dist.distance(this.geo.position, this.region.position)
 
-        const owner = document.createElement("span")
-        owner.textContent = this.region.status.owner
-        owner.style.color = getColorNeutralBlack(this.region.status.owner)
-        document.querySelector("#region").innerHTML = `${this.region.name} (${owner.outerHTML})`
-        document.querySelector("#distance").textContent = this.dist.format(distance)
-        document.querySelector("#building").textContent = this.region.building
+        this.ui.regionTitle(this.region, this.region.status.owner, document.querySelector("#region"))
+        this.ui.buildingDistanceLabel(this.region, distance, document.querySelector("#buildingDistance"))
     }
 }

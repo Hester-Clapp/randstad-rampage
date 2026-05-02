@@ -5,11 +5,6 @@ header {
     gap: 1rem;
     align-items: center;
 
-    b#region {
-        font-size: larger;
-        text-shadow: 0 0 1px #0000007f;
-    }
-
     #buttonContainer {
         display: flex;
         gap: 0.75rem;
@@ -90,6 +85,37 @@ header {
 }
 
 form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    min-height: 100svh;
+    padding: 2rem;
+
+    label {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        max-width: 24rem;
+        padding: 0.75rem 1rem;
+        font-size: 1.125rem;
+        border: 2px solid #d1d5db;
+        border-radius: 0.5rem;
+        outline: none;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        -webkit-tap-highlight-color: transparent;
+
+        &:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+    }
+
     input[type="submit"] {
         padding: 0.6rem 1.4rem;
         min-height: 2.75rem;
@@ -117,6 +143,21 @@ form {
             }
         }
     }
+
+    @media (max-width: 480px) {
+        input[type="text"],
+        input[type="submit"] {
+            width: 100%;
+            max-width: none;
+            font-size: 1rem;
+        }
+    }
+}
+
+#teamName,
+.regionTitle {
+    text-shadow: 0 0 2px #0000007f;
+    transition: color 0.1s;
 }
 
 #map {
