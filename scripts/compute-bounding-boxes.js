@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const districts = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/districts.json'), 'utf8'));
+const districts = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/polygons.json'), 'utf8'));
 
 const boundingBoxes = {};
 

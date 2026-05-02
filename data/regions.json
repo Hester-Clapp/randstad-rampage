@@ -1,10 +1,7 @@
 [
     {
         "name": "Delft",
-        "districts": [
-            "Delft"
-        ],
-        "color": 0,
+		"color": 0,
         "building": "Stadhuis Delft",
         "station": "Delft (NS)",
         "position": {
@@ -17,10 +14,7 @@
     },
     {
         "name": "Den Haag Centrum",
-        "districts": [
-            "Den Haag Centrum"
-        ],
-        "color": 1,
+		"color": 1,
         "building": "Het Oude Stadhuis",
         "station": "Gravenstraat (HTM), Centrum (HTM), Spui (HTM)",
         "position": {
@@ -33,10 +27,7 @@
     },
     {
         "name": "Den Haag Leyenburg",
-        "districts": [
-            "Den Haag Leyenburg"
-        ],
-        "color": 2,
+		"color": 2,
         "building": "Haga Ziekenhuis",
         "station": "Leyenburg (HTM)",
         "position": {
@@ -49,10 +40,7 @@
     },
     {
         "name": "Dordrecht",
-        "districts": [
-            "Dordrecht"
-        ],
-        "color": 2,
+		"color": 2,
         "building": "Stadhuis Dordrecht",
         "station": "Dordrecht (NS)",
         "position": {
@@ -65,10 +53,7 @@
     },
     {
         "name": "Gouda",
-        "districts": [
-            "Gouda"
-        ],
-        "color": 2,
+		"color": 2,
         "building": "Stadhuis Gouda",
         "station": "Gouda (NS)",
         "position": {
@@ -81,10 +66,7 @@
     },
     {
         "name": "Leiden",
-        "districts": [
-            "Leiden"
-        ],
-        "color": 3,
+		"color": 3,
         "building": "Stadhuis Leiden",
         "station": "Leiden Centraal (NS)",
         "position": {
@@ -97,10 +79,7 @@
     },
     {
         "name": "Leidschendam",
-        "districts": [
-            "Leidschendam"
-        ],
-        "color": 2,
+		"color": 2,
         "building": "Westfield Mall of the Netherlands",
         "station": "Mall of the Netherlands (HTM), Weigelia (HTM)",
         "position": {
@@ -113,10 +92,7 @@
     },
     {
         "name": "Pijnacker",
-        "districts": [
-            "Pijnacker"
-        ],
-        "color": 3,
+		"color": 3,
         "building": "H. Johannes de Doperkerk",
         "station": "Pijnacker Centrum (RET)",
         "position": {
@@ -129,10 +105,7 @@
     },
     {
         "name": "Rotterdam Centrum",
-        "districts": [
-            "Rotterdam Centrum"
-        ],
-        "color": 2,
+		"color": 2,
         "building": "Stadhuis Rotterdam",
         "station": "Stadhuis (RET)",
         "position": {
@@ -145,10 +118,7 @@
     },
     {
         "name": "Rotterdam Kralingen",
-        "districts": [
-            "Rotterdam Kralingen"
-        ],
-        "color": 0,
+		"color": 0,
         "building": "Molen De Ster",
         "station": "Essenlaan (RET), Voorschoterlaan (RET)",
         "position": {
@@ -161,10 +131,7 @@
     },
     {
         "name": "Rotterdam Zuid",
-        "districts": [
-            "Rotterdam Zuid"
-        ],
-        "color": 1,
+		"color": 1,
         "building": "Ahoy Arena",
         "station": "Zuidplein (RET)",
         "position": {
@@ -177,10 +144,7 @@
     },
     {
         "name": "Scheveningen",
-        "districts": [
-            "Scheveningen"
-        ],
-        "color": 0,
+		"color": 0,
         "building": "Grand Hotel Amrâth Kurhaus",
         "station": "Kurhaus (HTM)",
         "position": {
@@ -193,10 +157,7 @@
     },
     {
         "name": "Spijkenisse",
-        "districts": [
-            "Spijkenisse"
-        ],
-        "color": 3,
+		"color": 3,
         "building": "Euro Banknote Bridges",
         "station": "Spijkenisse Centrum (RET)",
         "position": {
@@ -209,10 +170,7 @@
     },
     {
         "name": "Vlaardingen",
-        "districts": [
-            "Vlaardingen"
-        ],
-        "color": 1,
+		"color": 1,
         "building": "Stadhuis Vlaardingen",
         "station": "Vlaardingen Centrum (RET)",
         "position": {
@@ -225,10 +183,7 @@
     },
     {
         "name": "Zoetermeer",
-        "districts": [
-            "Zoetermeer"
-        ],
-        "color": 1,
+		"color": 1,
         "building": "Gemeente Zoetermeer",
         "station": "Stadhuis (HTM)",
         "position": {

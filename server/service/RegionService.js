@@ -1,48 +1,57 @@
-import { DistrictQueryHandler } from "./DistrictQueryHandler.js"
 import { RegionRepository } from "../database/RegionRepository.js"
+import { PolygonRepository } from "../database/PolygonRepository.js"
+import { TileRepository } from "../database/TileRepository.js"
 
 export class RegionService {
 
-    constructor(dqh, regions) {
-        this.dqh = dqh;
-        this.districts = dqh.districts;
-        this.regions = regions;
+    constructor(regions) {
+        if (!regions) throw new Error("Tried to initialise RegionService with no RegionRepository")
+        this.regions = regions
+        this.polygons = new PolygonRepository()
+        this.tiles = new TileRepository()
     }
 
     static async create() {
-        const dqh = new DistrictQueryHandler();
         const regions = await RegionRepository.create();
-        return new RegionService(dqh, regions);
+        return new RegionService(regions);
     }
 
     whichRegionContains(position) {
-        const district = this.dqh.getDistrict(position)
-        if (district === null) return null
-        const name = this.districts.getRegion(district)
-        return name
+        if (!position) throw new Error("Invalid position")
+        if (!position.latitude) throw new Error("Invalid position, missing latitude")
+        if (!position.longitude) throw new Error("Invalid position, missing longitude")
+        if (typeof position.latitude === "string") position.latitude = Number(position.latitude)
+        if (typeof position.longitude === "string") position.longitude = Number(position.longitude)
+
+        const tileMatch = this.tiles.get(position)
+        if (tileMatch) return tileMatch
+
+        const candidates = this.polygons.getCandidates(position)
+        if (!candidates) return null // Position was not in any region's bounding box
+
+        for (const name of candidates) {
+            if (this.polygons.positionInRegion(position, name)) {
+                return name
+            }
+        }
+
+        return null // Position is close to the boundary but not inside
     }
 
     get(name) {
         return this.regions.get(name)
     }
     
-    getPolygons(region) {
-        const polygons = []
-        for (const districtName of region.districts) {
-            const polygon = this.districts.get(districtName)
-            polygons.push(this.reverseLatLon(polygon))
-        }
-
-        return { ...region, polygons }
-    }
-
-    reverseLatLon(polygon) {
-        return polygon.map(([lon, lat]) => [lat, lon])
+    getPolygon(region) {
+        const reverseLatLon = polygon => polygon.map(([lon, lat]) => [lat, lon])
+        
+        const polygon = this.polygons.get(region.name)
+        return { ...region, polygon: reverseLatLon(polygon) }
     }
 
     getAllPolygons() {
         const regions = this.regions.getAllRegions()
-        return regions.map(region => this.getPolygons(region))
+        return regions.map(region => this.getPolygon(region))
     }
 
     async getStatus(name) {

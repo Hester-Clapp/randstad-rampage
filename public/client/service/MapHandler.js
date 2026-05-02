@@ -18,17 +18,11 @@ export class MapHandler {
         const regions = await fetch("/mapData").then(res => res.json())
 
         for (const region of regions) {
-            for (const polygon of region.polygons) {
-                this.regions[region.name] = L.polygon(polygon, {
-                    color: this.colors[region.color],
-                    fillColor: this.colors[region.color],
-                    fillOpacity: 0.1
-                }).bindPopup(region.name).addTo(this.map)
-
-                // for (const [lat, lon] of polygon) {
-                //     L.marker([lat, lon]).bindPopup(`[${lon}, ${lat}]`).addTo(this.map)
-                // }
-            }
+            this.regions[region.name] = L.polygon(region.polygon, {
+                color: "white",
+                fillColor: "white",
+                fillOpacity: 0.2
+            }).bindPopup(region.name).addTo(this.map)
 
             this.buildings[region.name] = L.marker([region.position.latitude, region.position.longitude])
                 .bindPopup(region.building).addTo(this.map)

@@ -1,17 +1,24 @@
 const fs = require('fs');
 const path = require('path');
-import {bigKey, smallKey} from "../public/utils/tile-keys.js"
+import {bigKey, mediumKey, smallKey} from "../public/utils/tile-keys.js"
 
-const districts = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/districts.json'), 'utf8'));
+const districts = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/polygons.json'), 'utf8'));
 const boundingBoxes = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/bounding-boxes.json'), 'utf8'));
-const boundaryCells = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/boundary-cells.json'), 'utf8'));
 
-const BIG_STEP = 0.01;
-const SMALL_STEP = 0.001;
 const LON_MIN = 4.1, LON_MAX = 4.7;
 const LAT_MIN = 51.8, LAT_MAX = 52.2;
+
+const BIG_STEP = 0.01;
 const BIG_COLS = Math.round((LON_MAX - LON_MIN) / BIG_STEP);
 const BIG_ROWS = Math.round((LAT_MAX - LAT_MIN) / BIG_STEP);
+
+const MEDIUM_STEP = 0.005;
+const MEDIUM_COLS = Math.round((LON_MAX - LON_MIN) / MEDIUM_STEP);
+const MEDIUM_ROWS = Math.round((LAT_MAX - LAT_MIN) / MEDIUM_STEP);
+
+const SMALL_STEP = 0.001;
+const SMALL_COLS = Math.round((LON_MAX - LON_MIN) / SMALL_STEP);
+const SMALL_ROWS = Math.round((LAT_MAX - LAT_MIN) / SMALL_STEP);
 
 // Ray casting point-in-polygon. polygon is array of [lon, lat] pairs.
 function pointInPolygon(lon, lat, polygon) {
@@ -100,55 +107,70 @@ function getDistrictsInTile(minLon, minLat, step) {
     return found;
 }
 
-// Check boundary-cells.json (0.001° grid) to decide if a big tile (0.01°)
-// contains any district boundary.
-function bigTileHasBoundary(bigLon, bigLat) {
-    for (let di = 0; di < 10; di++) {
-        for (let dj = 0; dj < 10; dj++) {
-            const lonK = Math.round((bigLon + di * SMALL_STEP) * 1000);
-            const latK = Math.round((bigLat + dj * SMALL_STEP) * 1000);
-            if (boundaryCells[`${latK}${lonK}`]) return true;
-        }
-    }
-    return false;
+function tileHasBoundary(lon, lat, step) {
+    const overlapping = getDistrictsInTile(lon, lat, step);
+    if (overlapping.length > 1) return true;
+    if (overlapping.length === 0) return false;
+    const polygon = districts[overlapping[0]];
+    return [[lon, lat], [lon + step, lat], [lon + step, lat + step], [lon, lat + step]]
+        .some(([cLon, cLat]) => !pointInPolygon(cLon, cLat, polygon));
 }
 
 const bigTiles = {};
+const mediumTiles = {};
 const smallTiles = {};
-const boundaryTiles = {};
+// const boundaryTiles = {};
 
+// Big tiles
 for (let col = 0; col < BIG_COLS; col++) {
     for (let row = 0; row < BIG_ROWS; row++) {
-        const bigLon = Math.floor((LON_MIN + col * BIG_STEP) * 100) / 100;
-        const bigLat = Math.floor((LAT_MIN + row * BIG_STEP) * 100) / 100;
+        const lon = Math.floor((LON_MIN + col * BIG_STEP) * 100) / 100;
+        const lat = Math.floor((LAT_MIN + row * BIG_STEP) * 100) / 100;
 
-        if (!bigTileHasBoundary(bigLon, bigLat)) {
-            const district = getDistrict(bigLon, bigLat);
-            if (district !== null) bigTiles[bigKey({longitude: bigLon, latitude: bigLat})] = district
-        } else {
-            for (let di = 0; di < 10; di++) {
-                for (let dj = 0; dj < 10; dj++) {
-                    const smallLon = Math.floor((bigLon + di * SMALL_STEP) * 1000) / 1000;
-                    const smallLat = Math.floor((bigLat + dj * SMALL_STEP) * 1000) / 1000;
-                    const key = smallKey({longitude: smallLon, latitude: smallLat});
+        if (!tileHasBoundary(lon, lat, BIG_STEP)) {
+            const district = getDistrict(lon, lat);
+            if (district !== null) bigTiles[bigKey({longitude: lon, latitude: lat})] = district
+        }
+    }
+}
 
-                    if (!boundaryCells[key]) {
-                        const district = getDistrict(smallLon, smallLat);
-                        if (district !== null) smallTiles[key] = district
-                    } else {
-                        const district = getDistrictsInTile(smallLon, smallLat, SMALL_STEP);
-                        if (district !== null) boundaryTiles[key] = district
-                    }
-                }
-            }
+// Medium tiles
+for (let col = 0; col < MEDIUM_COLS; col++) {
+    for (let row = 0; row < MEDIUM_ROWS; row++) {
+        const lon = Math.floor((LON_MIN + col * MEDIUM_STEP) * 100) / 100;
+        const lat = Math.floor((LAT_MIN + row * MEDIUM_STEP) * 100) / 100;
+
+        if (bigKey({longitude: lon, latitude: lat}) in bigTiles) continue
+
+        if (!tileHasBoundary(lon, lat, MEDIUM_STEP)) {
+            const district = getDistrict(lon, lat);
+            if (district !== null) mediumTiles[mediumKey({longitude: lon, latitude: lat})] = district
+        }
+    }
+}
+
+// Small tiles
+for (let col = 0; col < SMALL_COLS; col++) {
+    for (let row = 0; row < SMALL_ROWS; row++) {
+        const lon = Math.floor((LON_MIN + col * SMALL_STEP) * 100) / 100;
+        const lat = Math.floor((LAT_MIN + row * SMALL_STEP) * 100) / 100;
+
+        if (bigKey({longitude: lon, latitude: lat}) in bigTiles) continue
+        if (mediumKey({longitude: lon, latitude: lat}) in mediumTiles) continue
+
+        if (!tileHasBoundary(lon, lat, SMALL_STEP)) {
+            const district = getDistrict(lon, lat);
+            if (district !== null) smallTiles[smallKey({longitude: lon, latitude: lat})] = district
         }
     }
 }
 
 fs.writeFileSync(path.join(__dirname, '../data/big-tiles.json'), JSON.stringify(bigTiles));
+fs.writeFileSync(path.join(__dirname, '../data/medium-tiles.json'), JSON.stringify(mediumTiles));
 fs.writeFileSync(path.join(__dirname, '../data/small-tiles.json'), JSON.stringify(smallTiles));
-fs.writeFileSync(path.join(__dirname, '../data/boundary-tiles.json'), JSON.stringify(boundaryTiles));
+// fs.writeFileSync(path.join(__dirname, '../data/boundary-tiles.json'), JSON.stringify(boundaryTiles));
 
 console.log(`Big tiles (no boundary):   ${Object.keys(bigTiles).length}`);
+console.log(`Medium tiles (no boundary):   ${Object.keys(mediumTiles).length}`);
 console.log(`Small tiles (no boundary): ${Object.keys(smallTiles).length}`);
-console.log(`Boundary tiles:            ${Object.keys(boundaryTiles).length}`);
+// console.log(`Boundary tiles:            ${Object.keys(boundaryTiles).length}`);
