@@ -27,10 +27,10 @@ export class HomeController extends Controller {
     async login() {
         if (this.teamName) {
             localStorage.setItem("teamName", this.teamName)
-            sessionStorage.setItem("teamName", this.teamName)
         } else {
             this.teamName = "Default Team"
         }
+        sessionStorage.setItem("teamName", this.teamName)
         loadPage("regions");
     }
 }

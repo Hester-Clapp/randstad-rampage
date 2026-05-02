@@ -30,20 +30,6 @@ export class GeoLocationService extends EventTarget {
         return { latitude, longitude, accuracy, age }
     }
 
-    distance(x, y) {
-        const R = 6371000
-        const toRad = (deg) => (deg * Math.PI) / 180
-        const dLat = toRad(y.latitude - x.latitude)
-        const dLon = toRad(y.longitude - x.longitude)
-        const a =
-            Math.sin(dLat / 2) ** 2 +
-            Math.cos(toRad(x.latitude)) * Math.cos(toRad(y.latitude)) * Math.sin(dLon / 2) ** 2
-        const distance = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-        const lower = Math.round(Math.max(0, distance - x.accuracy - y.accuracy))
-        const upper = Math.round(distance + x.accuracy + y.accuracy)
-        return { lower, upper }
-    }
-
     cleanup() {
         if (this.watchId) navigator.geolocation.clearWatch(this.watchId)
     }

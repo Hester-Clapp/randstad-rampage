@@ -1,7 +1,7 @@
+import { getColor } from "../../utils/team-color.js"
+
 export class MapHandler {
     constructor() {
-        this.colors = ["crimson", "orange", "limegreen", "indigo"]
-
         this.map = L.map('map').setView([52, 4.35], 12);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -27,5 +27,11 @@ export class MapHandler {
             this.buildings[region.name] = L.marker([region.position.latitude, region.position.longitude])
                 .bindPopup(region.building).addTo(this.map)
         }
+    }
+
+    setOwner(regionName, teamName) {
+        const color = getColor(teamName)
+        this.regions[regionName].setStyle({color: color, fillColor: color})
+        this.regions[regionName].bringToFront()
     }
 }

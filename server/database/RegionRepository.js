@@ -12,6 +12,10 @@ export class RegionRepository {
         return new RegionRepository(kv);
     }
 
+    contains(name) {
+        return regions.some(region => region.name === name)
+    }
+
     get(name) {
         if (!name) return null;
         const candidates = regions.filter(region => region.name === name);
@@ -37,9 +41,9 @@ export class RegionRepository {
         const owner = successfulChallenger || claimerEntry.value || null;
 
         return {
+            owner,
             claimed: claimerEntry.value ? true : false,
             locked: successfulChallenger ? true : false,
-            owner
         }
     }
 

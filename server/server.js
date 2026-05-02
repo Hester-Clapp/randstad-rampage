@@ -9,6 +9,7 @@ async function handle(req) {
     const url = new URL(req.url);
     const { pathname, searchParams } = url;
     const segments = pathname.split("/").slice(1)
+    console.log(pathname)
     
     const GET = (req.method === "GET")
     const POST = (req.method === "POST")
@@ -16,6 +17,7 @@ async function handle(req) {
     const DELETE = (req.method === "DELETE")
 
     const region = (segments[0] === "region") ? segments[1] : null
+    if (region && !services.region.isValid(region)) return new Response(`Invalid region: ${region}`, { status: 400 })
 
     if (GET && pathname === "/mapData") {
         const data = await services.region.getAllPolygons()
@@ -25,8 +27,8 @@ async function handle(req) {
     if (GET && pathname === "/regionQuery") {
         const latitude = Number(searchParams.get("lat"))
         const longitude = Number(searchParams.get("lon"))
-        if (!latitude) return new Response("Invalid Latitude", {status:400})
-        if (!longitude) return new Response("Invalid Longitude", {status:400})
+        if (!latitude) return new Response("Invalid Latitude", { status:400 })
+        if (!longitude) return new Response("Invalid Longitude", { status:400 })
 
         const result = await services.region.whichRegionContains({ latitude, longitude })
         return json(services.region.get(result))
@@ -38,13 +40,22 @@ async function handle(req) {
     }
 
     if (PUT && region && segments[2] === "claim") {
-        const teamName = searchParams.get("name")
-        const status = await services.region.claim(region, teamName)
-        return json(status)
+        const teamName = searchParams.get("teamName")
+        if (!teamName) return new Response(`Invalid team name: ${teamName}`, { status: 400 })
+
+        try {
+            await services.region.claim(region, teamName)
+            const status = await services.region.getStatus(region)
+            // if (!status) return new Response(`Status for ${region} unknown`, { status: 404 })
+            return json(status)
+        } catch(e) {
+            return new Response(e.message, { status: 500 })
+        }
+
     }
 
     if (PUT && region && segments[2] === "challenge") {
-        const teamName = searchParams.get("name")
+        const teamName = searchParams.get("teamName")
         const success = (searchParams.get("success") === "true")
         const status = await services.region.challenge(region, teamName, success)
         return json(status)

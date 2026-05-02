@@ -38,6 +38,11 @@ export class RegionService {
         return null // Position is close to the boundary but not inside
     }
 
+    isValid(name) {
+        if (!name) return false
+        return this.regions.contains(name)
+    }
+
     get(name) {
         return this.regions.get(name)
     }
@@ -54,20 +59,21 @@ export class RegionService {
         return regions.map(region => this.getPolygon(region))
     }
 
-    async getStatus(name) {
-        return this.regions.getStatus(name)
+    async getStatus(regionName) {
+        const status = await this.regions.getStatus(regionName)
+        return (status.claimed) ? status : { ...status, owner: "Neutral"}
     }
 
     async claim(regionName, teamName) {
-        return this.regions.claim(regionName, teamName)
+        return await this.regions.claim(regionName, teamName)
     }
 
     async challenge(regionName, teamName, success) {
-        return this.regions.challenge(regionName, teamName, success)
+        return await this.regions.challenge(regionName, teamName, success)
     }
 
     async reset() {
-        return this.regions.reset()
+        return await this.regions.reset()
     }
 
 }
