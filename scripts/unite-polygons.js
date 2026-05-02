@@ -101,6 +101,8 @@ export function unitePolygons(polyA, polyB, threshold = 0.01) {
     return result;
 }
 
+console.log("no.")
+/*
 const allDistricts = JSON.parse(readFileSync(join(__dirname, '../data/all-districts.json'), 'utf8'));
 const regions = JSON.parse(readFileSync(join(__dirname, '../data/regions.json'), 'utf8'));
 
@@ -109,10 +111,10 @@ const output = { ...allDistricts };
 for (const region of regions) {
 
     const hasRotterdam = region.districts.some(d => d.startsWith('Rotterdam -'));
-    if (hasRotterdam) {
-        console.log(`Skipping "${region.name}" (contains Rotterdam district)`);
-        continue;
-    }
+    // if (hasRotterdam) {
+    //     console.log(`Skipping "${region.name}" (contains Rotterdam district)`);
+    //     continue;
+    // }
 
     const available = region.districts.filter(d => {
         if (!allDistricts[d]) { console.warn(`  Warning: district "${d}" not found, skipping`); return false; }
@@ -156,3 +158,4 @@ const outPath = join(__dirname, '../data/districts.json');
 mkdirSync(dirname(outPath), { recursive: true });
 writeFileSync(outPath, JSON.stringify(output, null, 4));
 console.log(`\nWritten to ${outPath}`);
+*/

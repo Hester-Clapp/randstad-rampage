@@ -2,9 +2,7 @@
     {
         "name": "Delft",
         "districts": [
-            "Delft",
-            "Rijswijk",
-            "Midden-Delfland"
+            "Delft"
         ],
         "color": 0,
         "building": "Stadhuis Delft",
@@ -20,9 +18,7 @@
     {
         "name": "Den Haag Centrum",
         "districts": [
-            "Den Haag - Centrum",
-            "Den Haag - Haagse Hout",
-            "Den Haag - Laak"
+            "Den Haag Centrum"
         ],
         "color": 1,
         "building": "Het Oude Stadhuis",
@@ -38,10 +34,7 @@
     {
         "name": "Den Haag Leyenburg",
         "districts": [
-            "Den Haag - Escamp",
-            "Den Haag - Loosduinen",
-            "Rotterdam - Hoek van Holland",
-            "Westland"
+            "Den Haag Leyenburg"
         ],
         "color": 2,
         "building": "Haga Ziekenhuis",
@@ -57,10 +50,7 @@
     {
         "name": "Dordrecht",
         "districts": [
-            "Barendrecht",
-            "Dordrecht",
-            "Ridderkerk",
-            "Zwijndrecht"
+            "Dordrecht"
         ],
         "color": 2,
         "building": "Stadhuis Dordrecht",
@@ -76,9 +66,7 @@
     {
         "name": "Gouda",
         "districts": [
-            "Gouda",
-            "Waddinxveen",
-            "Zuidplas"
+            "Gouda"
         ],
         "color": 2,
         "building": "Stadhuis Gouda",
@@ -94,13 +82,7 @@
     {
         "name": "Leiden",
         "districts": [
-            "Katwijk",
-            "Oegstgeest",
-            "Leiden",
-            "Leiderdorp",
-            "Voorschoten",
-            "Wassenaar",
-            "Zoeterwoude"
+            "Leiden"
         ],
         "color": 3,
         "building": "Stadhuis Leiden",
@@ -116,8 +98,7 @@
     {
         "name": "Leidschendam",
         "districts": [
-            "Leidschendam-Voorburg",
-            "Den Haag - Leidschenveen-Ypenburg"
+            "Leidschendam"
         ],
         "color": 2,
         "building": "Westfield Mall of the Netherlands",
@@ -133,8 +114,7 @@
     {
         "name": "Pijnacker",
         "districts": [
-            "Lansingerland",
-            "Pijnacker-Nootdorp"
+            "Pijnacker"
         ],
         "color": 3,
         "building": "H. Johannes de Doperkerk",
@@ -150,10 +130,7 @@
     {
         "name": "Rotterdam Centrum",
         "districts": [
-            "Rotterdam - Centrum",
-            "Rotterdam - Delfshaven",
-            "Rotterdam - Overschie",
-            "Rotterdam - Noord"
+            "Rotterdam Centrum"
         ],
         "color": 2,
         "building": "Stadhuis Rotterdam",
@@ -169,10 +146,7 @@
     {
         "name": "Rotterdam Kralingen",
         "districts": [
-            "Capelle aan den IJssel",
-            "Rotterdam - Hillegersberg-Schiebroek",
-            "Rotterdam - Kralingen",
-            "Rotterdam - Prins Alexander"
+            "Rotterdam Kralingen"
         ],
         "color": 0,
         "building": "Molen De Ster",
@@ -188,9 +162,7 @@
     {
         "name": "Rotterdam Zuid",
         "districts": [
-            "Rotterdam - Charlois",
-            "Rotterdam - Feijenoord",
-            "Rotterdam - IJsselmonde"
+            "Rotterdam Zuid"
         ],
         "color": 1,
         "building": "Ahoy Arena",
@@ -206,8 +178,7 @@
     {
         "name": "Scheveningen",
         "districts": [
-            "Den Haag - Scheveningen",
-            "Den Haag - Segbroek"
+            "Scheveningen"
         ],
         "color": 0,
         "building": "Grand Hotel Amrâth Kurhaus",
@@ -223,10 +194,7 @@
     {
         "name": "Spijkenisse",
         "districts": [
-            "Albrandswaard",
-            "Rotterdam - Hoogvliet",
-            "Rotterdam - Pernis",
-            "Nissewaard"
+            "Spijkenisse"
         ],
         "color": 3,
         "building": "Euro Banknote Bridges",
@@ -242,8 +210,6 @@
     {
         "name": "Vlaardingen",
         "districts": [
-            "Maassluis",
-            "Schiedam",
             "Vlaardingen"
         ],
         "color": 1,
