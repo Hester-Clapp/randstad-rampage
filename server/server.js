@@ -16,15 +16,15 @@ async function handle(req) {
     const PUT = (req.method === "PUT")
     const DELETE = (req.method === "DELETE")
 
-    const region = (segments[0] === "region") ? decodeURIComponent(segments[1]) : null
+    const region = (segments[0] === "regions") ? decodeURIComponent(segments[1]) : null
     if (region && (GET || POST || PUT) && !services.region.isValid(region)) return new Response(`Invalid region: ${region}`, { status: 400 })
 
-    if (GET && pathname === "/map-data") {
+    if (GET && segments[0] === "map-data") {
         const data = await services.region.getAllPolygons()
         return json(data)
     }
 
-    if (GET && pathname === "/region-query") {
+    if (GET && segments[0] === "region") {
         const latitude = Number(searchParams.get("latitude"))
         const longitude = Number(searchParams.get("longitude"))
         if (!latitude) return new Response("Invalid Latitude", { status: 400 })
@@ -61,7 +61,11 @@ async function handle(req) {
         return json(status)
     }
 
-    if (DELETE && segments[0] === "region") {
+    if (GET && segments[0] === "scores") {
+        return json(await services.region.getScores())
+    }
+
+    if (DELETE && segments[0] === "regions") {
         await services.region.reset()
         return new Response(null, { status: 200 })
     }
@@ -80,6 +84,7 @@ function json(data, status = 200) {
         headers: { "Content-Type": "application/json" },
     });
 }
+
 if (import.meta.main) {
     console.log("Starting server...")
     Deno.serve(handle, { port: Deno.env.get("PORT") || 8000 });

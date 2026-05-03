@@ -83,7 +83,8 @@ button[disabled].tooFar {
     color: #ddd;
 }
 
-button.green {
+button.green,
+input[type=submit].green {
     background-color: #22c55e;
 
     &:not([disabled]):hover {
@@ -96,7 +97,8 @@ button.green {
 
 }
 
-button.orange {
+button.orange,
+input[type=submit].orange {
     background-color: #f59e0b;
 
     &:not([disabled]):hover {
@@ -108,7 +110,8 @@ button.orange {
     }
 }
 
-button.blue {
+button.blue,
+input[type=submit].blue {
     background-color: #4f46e5;
 
     &:not([disabled]):hover {
@@ -120,7 +123,8 @@ button.blue {
     }
 }
 
-button.red {
+button.red,
+input[type=submit].red {
     background-color: #c52222;
 
     &:not([disabled]):hover {
@@ -134,7 +138,8 @@ button.red {
 }
 
 #teamName,
-.regionTitle {
+.regionTitle span,
+.scoreCard span {
     text-shadow: 0 0 2px #0000007f;
     transition: color 0.1s;
 }

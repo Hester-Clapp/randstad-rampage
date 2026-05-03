@@ -64,6 +64,20 @@ export class RegionService {
         return regions.map(region => this.getPolygon(region))
     }
 
+    async getScores() {
+        const regions = this.regions.getAllRegions()
+        const statuses = await Promise.all(regions.map(r => this.regions.getStatus(r.name)))
+
+        const scores = {}
+        for (const status of statuses) {
+            if (!status.claimed) continue
+            scores[status.owner] ??= { claimed: 0, locked: 0 }
+            scores[status.owner].claimed++
+            if (status.locked) scores[status.owner].locked++
+        }
+        return scores
+    }
+
     async getStatus(regionName) {
         const status = await this.regions.getStatus(regionName)
         return (status.claimed) ? status : { ...status, owner: "Neutral"}

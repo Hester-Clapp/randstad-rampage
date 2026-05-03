@@ -146,6 +146,23 @@ export class UIFactory {
         return el
     }
 
+    scoreCard(teamName, score, el = document.createElement("tr")) {
+        this.setup(el, "scoreCard")
+        
+        const name = document.createElement("td")
+        name.textContent = teamName
+        
+        const claimed = document.createElement("td")
+        claimed.textContent = score.claimed
+        
+        const locked = document.createElement("td")
+        locked.textContent = score.locked
+        
+        el.style.background = getColorNeutralBlack(teamName)
+        el.append(name, claimed, locked)
+        return el
+    }
+
     errorMessage(message, el = document.createElement("div") ) {
         return this.textEl(el, "challengeResult", message)
     }
