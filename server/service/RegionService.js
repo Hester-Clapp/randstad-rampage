@@ -47,7 +47,7 @@ export class RegionService {
         const region = this.regions.get(name)
         if (region.name === "Delft") {
             region.challenge = "Challenge description."
-            region.time = 0.1
+            region.time = 0.05
         }
         return region
     }

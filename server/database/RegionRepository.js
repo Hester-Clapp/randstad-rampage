@@ -30,18 +30,18 @@ export class RegionRepository {
     async getStatus(name) {
         const claimerEntry = await this.kv.get(["region", name, "claimer"]);
 
+        const attempts = {}
         let successfulChallenger = null;
         for await (const entry of this.kv.list({ prefix: ["region", name, "challengers"] })) {
-            if (entry.value === true) {
-                successfulChallenger = entry.key.at(-1);
-                break;
-            }
+            attempts[entry.key.at(-1)] = entry.value
+            if (entry.value === true) successfulChallenger = entry.key.at(-1)
         }
 
         const owner = successfulChallenger || claimerEntry.value || null;
 
         return {
             owner,
+            attempts,
             claimed: claimerEntry.value ? true : false,
             locked: successfulChallenger ? true : false,
         }

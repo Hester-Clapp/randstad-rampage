@@ -17,7 +17,7 @@ async function handle(req) {
     const DELETE = (req.method === "DELETE")
 
     const region = (segments[0] === "region") ? decodeURIComponent(segments[1]) : null
-    if (region && !services.region.isValid(region)) return new Response(`Invalid region: ${region}`, { status: 400 })
+    if (region && (GET || POST || PUT) && !services.region.isValid(region)) return new Response(`Invalid region: ${region}`, { status: 400 })
 
     if (GET && pathname === "/mapData") {
         const data = await services.region.getAllPolygons()
@@ -25,8 +25,8 @@ async function handle(req) {
     }
 
     if (GET && pathname === "/regionQuery") {
-        const latitude = Number(searchParams.get("lat"))
-        const longitude = Number(searchParams.get("lon"))
+        const latitude = Number(searchParams.get("latitude"))
+        const longitude = Number(searchParams.get("longitude"))
         if (!latitude) return new Response("Invalid Latitude", { status:400 })
         if (!longitude) return new Response("Invalid Longitude", { status:400 })
 

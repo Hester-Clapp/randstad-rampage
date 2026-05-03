@@ -3,6 +3,8 @@ import { loadPage } from './pageLoader.js';
 
 import { UIFactory } from '../service/UIFactory.js';
 
+import { challengeRegion } from '../../utils/requests.js';
+
 export class ChallengeController extends Controller {
     async beforeLoad(region, teamName) {
         super.beforeLoad()
@@ -20,8 +22,16 @@ export class ChallengeController extends Controller {
         this.ui.challengeDescription(this.region, document.querySelector("#description"))
         this.ui.challengeTime(this.region, document.querySelector("#time"))
         this.ui.challengeTimer(this.region, document.querySelector("#timer"))
+        document.querySelector("#timer").addEventListener("finish", () => this.onFinish())
     }
 
-    // Actions
+    // Reactions
 
+    async onFinish() {
+        this.ui.challengeResult(async (result) => {
+            await challengeRegion(this.region, this.teamName, result)
+            navigator.vibrate(50)
+            loadPage("regions", this.teamName)
+        }, document.querySelector("#result"))
+    }
 }

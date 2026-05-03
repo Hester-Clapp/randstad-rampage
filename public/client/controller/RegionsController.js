@@ -61,7 +61,7 @@ export class RegionsController extends Controller {
         if (region.status.challenged) throw new Error("Region already challenged")
 
         const { distance, accuracy } = this.getDistance()
-        if (distance - accuracy > this.maxDistance) throw new Error("Region already challenged")
+        if (distance - accuracy > this.maxDistance) throw new Error("Too far away")
         
         await loadPage("challenge", this.region, this.teamName)
     }
@@ -92,15 +92,15 @@ export class RegionsController extends Controller {
             claimButton.classList.add("alreadyDone")
         }
         
-        if (region.status.challenged) {
+        if (region.status.locked || (this.teamName in region.status.attempts)) {
             challengeButton.disabled = true
             challengeButton.classList.remove("tooFar")
             challengeButton.classList.add("alreadyDone")
         } else {
             const { distance, accuracy } = this.getDistance()
-            const closeEnough = distance - accuracy < this.maxDistance
-            challengeButton.disabled = closeEnough
-            challengeButton.classList.toggle("tooFar", closeEnough)
+            const tooFar = distance - accuracy > this.maxDistance
+            challengeButton.disabled = tooFar
+            challengeButton.classList.toggle("tooFar", tooFar)
         }
     }
 

@@ -10,7 +10,7 @@ export class UIFactory {
 
     regionTitle(region, 
         owner = region.status.owner || "Unknown", 
-        el = el || document.createElement("h2")
+        el =  document.createElement("h2")
     ) {
         el.classList.add("regionTitle")
         el.innerHTML = ""
@@ -26,7 +26,7 @@ export class UIFactory {
 
     buildingDistanceLabel(region, 
         distance, 
-        el = el || document.createElement("p")
+        el =  document.createElement("p")
     ) {
         el.classList.add("buildingDistanceLabel")
         el.innerHTML = ""
@@ -39,7 +39,7 @@ export class UIFactory {
     }
     
     buildingTitle(region,  
-        el = el || document.createElement("h2")
+        el =  document.createElement("h2")
     ) {
         el.classList.add("buildingTitle")
         el.textContent = region.building
@@ -47,7 +47,7 @@ export class UIFactory {
     }
     
     challengeTitle(region,
-        el = el || document.createElement("h1")
+        el =  document.createElement("h1")
     ) {
         el.classList.add("challengeTitle")
         el.textContent = `${region.name} Challenge`
@@ -55,7 +55,7 @@ export class UIFactory {
     }
 
     challengeDescription(region,
-        el = el || document.createElement("p")
+        el =  document.createElement("p")
     ) {
         el.classList.add("challengeDescription")
         el.textContent = `${region.challenge}`
@@ -63,7 +63,7 @@ export class UIFactory {
     }
     
     challengeTime(region,
-        el = el || document.createElement("p")
+        el =  document.createElement("p")
     ) {
         el.classList.add("challengeTime")
         el.textContent = `You have ${region.time} minutes to complete this challenge`
@@ -71,7 +71,7 @@ export class UIFactory {
     }
     
     challengeTimer(region,
-        el = el || document.createElement("button")
+        el =  document.createElement("button")
     ) {
         el.classList.add("challengeTimer")
         el.innerHTML = ""
@@ -113,8 +113,33 @@ export class UIFactory {
         }
 
         el.textContent = "Start"
-        el.addEventListener("click", start)
+        el.addEventListener("click", start, { once:true })
 
+        return el
+    }
+
+    challengeResult(callback,
+        el =  document.createElement("div")
+    ) {
+        el.classList.add("challengeResult")
+        el.innerHTML = ""
+
+        const p = document.createElement("p")
+        p.textContent = "Did you succeed?"
+
+        const { signal } = new AbortController()
+
+        const success = document.createElement("button")
+        success.textContent = "Yes"
+        success.classList.add("green")
+        success.addEventListener("click", () => callback(true), { signal })
+
+        const fail = document.createElement("button")
+        fail.textContent = "No"
+        fail.classList.add("red")
+        fail.addEventListener("click", () => callback(false), { signal })
+
+        el.append(p, success, fail)
         return el
     }
 }
