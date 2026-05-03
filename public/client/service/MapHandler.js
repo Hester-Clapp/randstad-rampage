@@ -12,8 +12,10 @@ export class MapHandler {
         this.teamMarkers = {}
     }
 
-    async populate() {
-        this.map = L.map('map').setView([52, 4.35], 12);
+    async populate({ latitude, longitude }) {
+        this.yahMarker = null
+        this.yahCircle = null
+        this.map = L.map('map').setView([latitude, longitude], 12);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'

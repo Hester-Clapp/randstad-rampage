@@ -32,12 +32,13 @@ export class RegionsController extends Controller {
     async afterLoad() {
         super.afterLoad()
 
-        this.map.populate()
         this.ui.header("regions", this.teamName, document.querySelector("header"))
 
         document.querySelector("button#claimButton").addEventListener("click", (e) => this.claim(this.region, e), { signal: this.cleanup.signal })
         document.querySelector("button#challengeButton").addEventListener("click", (e) => this.challenge(this.region, e), { signal: this.cleanup.signal })
 
+        this.map.populate(this.geo.position)
+        
         this.onMove(this.geo.position)
         this.geo.addEventListener("move", (e) => this.onMove(e.detail), { signal: this.cleanup.signal })
     }
