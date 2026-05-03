@@ -7,21 +7,19 @@ export class MapHandler {
     constructor() {
         this.ui = new UIFactory()
 
+        this.regions = {}
+        this.buildings = {}
+        this.teamMarkers = {}
+    }
+
+    async populate() {
         this.map = L.map('map').setView([52, 4.35], 12);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(this.map);
 
-        this.regions = {}
-        this.buildings = {}
-        this.teamMarkers = {}
-        
-        this.populate()
-    }
-
-    async populate() {
-        const regions = await fetch("/mapData").then(res => res.json())
+        const regions = await fetch("/map-data").then(res => res.json())
 
         for (const region of regions) {
             const polygon = L.polygon(region.polygon, {
@@ -166,7 +164,7 @@ export class MapHandler {
                 const age = Date.now() - entry.timestamp
                 L.popup()
                     .setLatLng(marker.getLatLng())
-                    .setContent(`<b>${teamName}</b><br>Last seen ${this.formatTimeAgo(age)}`)
+                    .setContent(`<b>${teamName}</b><br>Last seen ${this.formatTimeAgo(age)} ago`)
                     .openOn(this.map)
             })
         }
@@ -180,11 +178,11 @@ export class MapHandler {
 
     formatTimeAgo(ms) {
         const s = Math.floor(ms / 1000)
-        if (s < 60) return `${this.formatMeasurement(s, "second")} ago`
+        if (s < 60) return this.formatMeasurement(s, "second")
         const m = Math.floor(s / 60)
-        if (m < 60) return `${this.formatMeasurement(m, "minute")} ago`
+        if (m < 60) return this.formatMeasurement(m, "minute")
         const h = Math.floor(m / 60)
-        return `${h}h ${m % 60}m ago`
+        return `${h}h ${m % 60}m`
     }
 
     updateTeamFades() {

@@ -1,3 +1,5 @@
+import { loadPage } from "../controller/pageLoader.js"
+
 import { DistanceCalculator } from "./DistanceCalculator.js"
 
 import { getColorNeutralBlack } from "../../utils/team-color.js"
@@ -8,16 +10,37 @@ export class UIFactory {
         this.dist = new DistanceCalculator()
     }
 
-    setup(el, cssClass) {
-        el.classList.add(cssClass)
+    setup(el, componentName) {
+        el.classList.add(componentName)
         el.innerHTML = ""
         return el
     }
 
-    textEl(el, cssClass, text) {
-        el.classList.add(cssClass)
+    textEl(el, componentName, text) {
+        el.classList.add(componentName)
         el.textContent = text
         return el
+    }
+
+    header(selected, teamName, el =  document.createElement("header") ) {
+        this.setup(el, "header")
+
+        el.append(
+            this.headerAnchor("Regions", selected, teamName),
+            this.headerAnchor("Transport", selected, teamName),
+            this.headerAnchor("Score", selected, teamName)
+        )
+        return el
+    }
+
+    headerAnchor(pageName, selected, teamName) {
+        const lower = pageName.toLowerCase()
+
+        const a = document.createElement("a")
+        a.textContent = pageName
+        if (selected === lower) a.classList.add("selected")
+        else a.addEventListener("click", () => loadPage(lower, teamName), { once: true })
+        return a
     }
 
     regionTitle(region, owner = region.status.owner || "Unknown", el =  document.createElement("h2") ) {
@@ -71,7 +94,7 @@ export class UIFactory {
             const minutes = Math.floor(timeRemaining / 60_000)
             const seconds = Math.floor((timeRemaining - minutes * 60_000) / 1000)
             time.textContent = `${minutes}:${String(seconds).padStart(2, "0")}`
-            progress.style.setProperty('--p', timeRemaining / challengeTime)
+            progress.style.setProperty('--p', timeRemaining / (challengeTime + 1000))
         }
 
         function start() {

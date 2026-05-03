@@ -1,5 +1,9 @@
-<style>   
-    header {
+<style>
+    #map {
+        height: calc(70vh);
+    }
+
+    section {
         height: 20vh;
         overflow: none;
         display: flex;
@@ -12,14 +16,11 @@
             flex-direction: column;
         }
     }
-    
-    #map {
-        height: calc(80vh - 1rem);
-    }
 </style>
 
+<header></header>
 <div id="map"></div>
-<header>
+<section>
     <div>    
         <h3 id="region"></h3>
         <p id="buildingDistance"></p>
@@ -28,4 +29,4 @@
         <button id="claimButton" class="green">Claim</button>
         <button id="challengeButton" class="orange">Challenge</button>
     </div>
-</header>
+</section>

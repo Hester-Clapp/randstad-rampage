@@ -10,12 +10,20 @@ import { UIFactory } from '../service/UIFactory.js';
 import { whichRegionContains, getRegionStatus, claimRegion } from "../../utils/requests.js"
 
 export class RegionsController extends Controller {
+    constructor() {
+        super()
+
+        this.dist = new DistanceCalculator()
+        this.ui = new UIFactory()
+        this.geo = new GeoLocationService()
+        // this.geo = new GeoLocationMock()
+        this.map = new MapHandler()
+
+    }
+
     async beforeLoad(teamName) {
         super.beforeLoad()
         
-        this.dist = new DistanceCalculator()
-        this.ui = new UIFactory()
-
         this.region = null
         this.teamName = teamName
         this.maxDistance = 100
@@ -24,15 +32,14 @@ export class RegionsController extends Controller {
     async afterLoad() {
         super.afterLoad()
 
-        this.geo = new GeoLocationService()
-        // this.geo = new GeoLocationMock()
-        this.map = new MapHandler()
+        this.map.populate()
+        this.ui.header("regions", this.teamName, document.querySelector("header"))
 
-        document.querySelector("button#claimButton").addEventListener("click", (e) => this.claim(this.region, e))
-        document.querySelector("button#challengeButton").addEventListener("click", (e) => this.challenge(this.region, e))
+        document.querySelector("button#claimButton").addEventListener("click", (e) => this.claim(this.region, e), { signal: this.cleanup.signal })
+        document.querySelector("button#challengeButton").addEventListener("click", (e) => this.challenge(this.region, e), { signal: this.cleanup.signal })
 
         this.onMove(this.geo.position)
-        this.geo.addEventListener("move", (e) => this.onMove(e.detail))
+        this.geo.addEventListener("move", (e) => this.onMove(e.detail), { signal: this.cleanup.signal })
     }
 
     // Utils
@@ -72,7 +79,7 @@ export class RegionsController extends Controller {
         el.style.left = clientX
         el.style.top = clientY
         document.body.appendChild(el)
-        window.addEventListener("click", () => el.remove(), { once:true })
+        this.addEventListener("click", () => el.remove(), true)
     }
 
     // Reactions

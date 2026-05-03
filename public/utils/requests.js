@@ -19,7 +19,7 @@ async function put(url) {
 }
 
 export async function whichRegionContains(position) {
-    return await get(constructURL(["regionQuery"], position))
+    return await get(constructURL(["region-query"], position))
 }
 
 export async function getRegionStatus(region) {

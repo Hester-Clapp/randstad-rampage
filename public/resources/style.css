@@ -1,3 +1,37 @@
+html,
+body {
+    margin: 0;
+}
+
+header {
+    height: 10vh;
+    margin: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+
+    a {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: large;
+        font-weight: 600;
+        background: #fff;
+        cursor: pointer;
+    }
+
+    a.selected {
+        background: #eee;
+        border-top: 0.25rem solid #4285F4;
+        border-bottom: 0.25rem solid transparent;
+    }
+}
+
+section {
+    margin: 0 1ch;
+}
+
 button,
 input[type="submit"] {
     display: block;
