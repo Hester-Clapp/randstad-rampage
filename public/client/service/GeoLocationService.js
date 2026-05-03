@@ -26,8 +26,7 @@ export class GeoLocationService extends EventTarget {
 
     get position() {
         const { latitude, longitude, accuracy } = this.lastPosition.coords
-        const age = Date.now() - this.lastPosition.timestamp
-        return { latitude, longitude, accuracy, age }
+        return { latitude, longitude, accuracy, timestamp: this.lastPosition.timestamp }
     }
 
     cleanup() {

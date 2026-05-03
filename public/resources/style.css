@@ -124,3 +124,95 @@ button.red {
         radial-gradient(circle, var(--inner-color) 50%, transparent 50%),
         conic-gradient(var(--ring-color) calc(var(--p) * 100%), var(--track-color) 0);
 }
+
+/* "You are here" marker */
+.yah-icon {
+    background: none;
+    border: none;
+}
+
+.yah-dot {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: #4285F4;
+    border: 2.5px solid #fff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.45);
+    z-index: 2;
+}
+
+.yah-ring {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+    background: rgba(66, 133, 244, 0.3);
+    animation: yah-pulse 2.2s ease-out infinite;
+    z-index: 1;
+}
+
+@keyframes yah-pulse {
+    0%   { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+
+/* Other-team markers */
+.team-icon {
+    background: none;
+    border: none;
+    transition: opacity 10s linear;
+}
+
+.team-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.team-bubble {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--team-color);
+    border: 2.5px solid white;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.team-bubble svg {
+    width: 18px;
+    height: 18px;
+}
+
+.team-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    background: var(--team-color);
+    padding: 1px 5px;
+    border-radius: 8px;
+    white-space: nowrap;
+    max-width: 84px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.errorMessage {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background: white;
+    box-shadow: 0 0 4px #0000007F;
+}

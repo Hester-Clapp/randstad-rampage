@@ -8,13 +8,20 @@ export class UIFactory {
         this.dist = new DistanceCalculator()
     }
 
-    regionTitle(region, 
-        owner = region.status.owner || "Unknown", 
-        el =  document.createElement("h2")
-    ) {
-        el.classList.add("regionTitle")
+    setup(el, cssClass) {
+        el.classList.add(cssClass)
         el.innerHTML = ""
+        return el
+    }
 
+    textEl(el, cssClass, text) {
+        el.classList.add(cssClass)
+        el.textContent = text
+        return el
+    }
+
+    regionTitle(region, owner = region.status.owner || "Unknown", el =  document.createElement("h2") ) {
+        this.setup(el, "regionTitle")
         el.textContent = region.name
 
         const span = document.createElement("span")
@@ -24,57 +31,33 @@ export class UIFactory {
         return el
     }
 
-    buildingDistanceLabel(region, 
-        distance, 
-        el =  document.createElement("p")
-    ) {
-        el.classList.add("buildingDistanceLabel")
-        el.innerHTML = ""
-
+    buildingDistanceLabel(region, distance, el =  document.createElement("p")) {
+        this.setup(el, "buildingDistanceLabel")
         el.textContent = `${this.dist.format(distance)} from `
         const owner = document.createElement("i")
         owner.textContent = region.building
         el.append(owner)
         return el
     }
-    
-    buildingTitle(region,  
-        el =  document.createElement("h2")
-    ) {
-        el.classList.add("buildingTitle")
-        el.textContent = region.building
-        return el
-    }
-    
-    challengeTitle(region,
-        el =  document.createElement("h1")
-    ) {
-        el.classList.add("challengeTitle")
-        el.textContent = `${region.name} Challenge`
-        return el
+
+    buildingTitle(region, el =  document.createElement("h2")) {
+        return this.textEl(el, "buildingTitle", region.building)
     }
 
-    challengeDescription(region,
-        el =  document.createElement("p")
-    ) {
-        el.classList.add("challengeDescription")
-        el.textContent = `${region.challenge}`
-        return el
+    challengeTitle(region, el =  document.createElement("h1")) {
+        return this.textEl(el, "challengeTitle", `${region.name} Challenge`)
     }
-    
-    challengeTime(region,
-        el =  document.createElement("p")
-    ) {
-        el.classList.add("challengeTime")
-        el.textContent = `You have ${region.time} minutes to complete this challenge`
-        return el
+
+    challengeDescription(region, el =  document.createElement("p")) {
+        return this.textEl(el, "challengeDescription", region.challenge)
     }
-    
-    challengeTimer(region,
-        el =  document.createElement("button")
-    ) {
-        el.classList.add("challengeTimer")
-        el.innerHTML = ""
+
+    challengeTime(region, el =  document.createElement("p")) {
+        return this.textEl(el, "challengeTime", `You have ${region.time} minutes to complete this challenge`)
+    }
+
+    challengeTimer(region, el =  document.createElement("button")) {
+        this.setup(el, "challengeTimer")
 
         const challengeTime = region.time * 60_000
         let startTime
@@ -107,7 +90,7 @@ export class UIFactory {
         function tick(currentTime) {
             const timeElapsed = currentTime - startTime
             if (startTime) display(timeElapsed)
-                
+
             if (startTime && (timeElapsed > challengeTime)) finish()
             else window.requestAnimationFrame(tick)
         }
@@ -118,11 +101,8 @@ export class UIFactory {
         return el
     }
 
-    challengeResult(callback,
-        el =  document.createElement("div")
-    ) {
-        el.classList.add("challengeResult")
-        el.innerHTML = ""
+    challengeResult(callback, el =  document.createElement("div") ) {
+        this.setup(el, "challengeResult")
 
         const p = document.createElement("p")
         p.textContent = "Did you succeed?"
@@ -141,5 +121,9 @@ export class UIFactory {
 
         el.append(p, success, fail)
         return el
+    }
+
+    errorMessage(message, el = document.createElement("div") ) {
+        return this.textEl(el, "challengeResult", message)
     }
 }

@@ -24,12 +24,12 @@ export class RegionsController extends Controller {
     async afterLoad() {
         super.afterLoad()
 
-        // this.geo = new GeoLocationService()
-        this.geo = new GeoLocationMock()
+        this.geo = new GeoLocationService()
+        // this.geo = new GeoLocationMock()
         this.map = new MapHandler()
 
-        document.querySelector("button#claimButton").addEventListener("click", () => this.claim())
-        document.querySelector("button#challengeButton").addEventListener("click", () => this.challenge())
+        document.querySelector("button#claimButton").addEventListener("click", (e) => this.claim(this.region, e))
+        document.querySelector("button#challengeButton").addEventListener("click", (e) => this.challenge(this.region, e))
 
         this.onMove(this.geo.position)
         this.geo.addEventListener("move", (e) => this.onMove(e.detail))
@@ -43,10 +43,10 @@ export class RegionsController extends Controller {
 
     // Actions
 
-    async claim(region = this.region) {
+    async claim(region = this.region, event) {
         if (!region || !region.name) throw new Error("Invalid region")
         if (!region.status) throw new Error("Unknown region status")
-        if (region.status.claimed) throw new Error("Region already claimed")
+        if (region.status.claimed) this.showError("Region already claimed", event)
 
         await claimRegion(this.region, this.teamName)
     
@@ -55,22 +55,32 @@ export class RegionsController extends Controller {
         this.showCurrentRegion()
     }
 
-    async challenge(region = this.region) {
+    async challenge(region = this.region, event) {
         if (!region || !region.name) throw new Error("Invalid region")
         if (!region.status) throw new Error("Unknown region status")
-        if (region.status.challenged) throw new Error("Region already challenged")
+        if (region.status.locked) this.showError(`This region's challenge has already been successfully completed by ${region.status.owner}`, e)
+        if (this.teamName in region.status.attempts) this.showError(`You have already attempted this region's challenge!`, e)
 
         const { distance, accuracy } = this.getDistance()
-        if (distance - accuracy > this.maxDistance) throw new Error("Too far away")
+        if (distance - accuracy > this.maxDistance) this.showError(`You are too far away from the challenge location! Move closer to ${this.region.building} to start the challenge`, e)
         
         await loadPage("challenge", this.region, this.teamName)
+    }
+
+    showError(message, { clientX, clientY }) {
+        const el = this.ui.errorMessage(message)
+        el.style.left = clientX
+        el.style.top = clientY
+        document.body.appendChild(el)
+        window.addEventListener("click", () => el.remove(), { once:true })
     }
 
     // Reactions
 
     async onMove(position) {
-        const { latitude, longitude } = position
-        if (!latitude || !longitude) return
+        if (!position.latitude || !position.longitude) return
+
+        this.map.setYouAreHere(position)
 
         this.region = await whichRegionContains(position)
         if (!this.region) return
