@@ -10,9 +10,9 @@ export class UIFactory {
 
     regionTitle(region, 
         owner = region.status.owner || "Unknown", 
-        el = document.createElement("h2")
+        el = el || document.createElement("h2")
     ) {
-        el.className = "regionTitle"
+        el.classList.add("regionTitle")
         el.innerHTML = ""
 
         el.textContent = region.name
@@ -26,9 +26,9 @@ export class UIFactory {
 
     buildingDistanceLabel(region, 
         distance, 
-        el = document.createElement("p")
+        el = el || document.createElement("p")
     ) {
-        el.className = "buildingDistanceLabel"
+        el.classList.add("buildingDistanceLabel")
         el.innerHTML = ""
 
         el.textContent = `${this.dist.format(distance)} from `
@@ -39,13 +39,82 @@ export class UIFactory {
     }
     
     buildingTitle(region,  
-        el = document.createElement("h2")
+        el = el || document.createElement("h2")
     ) {
-        el.className = "buildingTitle"
-        el.innerHTML = ""
-
+        el.classList.add("buildingTitle")
         el.textContent = region.building
         return el
     }
     
+    challengeTitle(region,
+        el = el || document.createElement("h1")
+    ) {
+        el.classList.add("challengeTitle")
+        el.textContent = `${region.name} Challenge`
+        return el
+    }
+
+    challengeDescription(region,
+        el = el || document.createElement("p")
+    ) {
+        el.classList.add("challengeDescription")
+        el.textContent = `${region.challenge}`
+        return el
+    }
+    
+    challengeTime(region,
+        el = el || document.createElement("p")
+    ) {
+        el.classList.add("challengeTime")
+        el.textContent = `You have ${region.time} minutes to complete this challenge`
+        return el
+    }
+    
+    challengeTimer(region,
+        el = el || document.createElement("button")
+    ) {
+        el.classList.add("challengeTimer")
+        el.innerHTML = ""
+
+        const challengeTime = region.time * 60_000
+        let startTime
+
+        const time = document.createElement("output")
+        const progress = document.createElement("div")
+        progress.classList.add("circle-progress")
+
+        function display(timeElapsed) {
+            const timeRemaining = challengeTime - timeElapsed
+            const minutes = Math.floor(timeRemaining / 60_000)
+            const seconds = Math.floor((timeRemaining - minutes * 60_000) / 1000)
+            time.textContent = `${minutes}:${String(seconds).padStart(2, "0")}`
+            progress.style.setProperty('--p', timeRemaining / challengeTime)
+        }
+
+        function start() {
+            startTime = document.timeline.currentTime + 1000
+            el.innerHTML = ""
+            el.append(time, progress)
+            window.requestAnimationFrame(tick)
+        }
+
+        function finish() {
+            el.textContent = "Time's Up!"
+            el.dispatchEvent(new CustomEvent("finish"))
+            navigator.vibrate([500, 500, 500, 500, 500])
+        }
+
+        function tick(currentTime) {
+            const timeElapsed = currentTime - startTime
+            if (startTime) display(timeElapsed)
+                
+            if (startTime && (timeElapsed > challengeTime)) finish()
+            else window.requestAnimationFrame(tick)
+        }
+
+        el.textContent = "Start"
+        el.addEventListener("click", start)
+
+        return el
+    }
 }

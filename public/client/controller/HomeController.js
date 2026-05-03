@@ -41,6 +41,6 @@ export class HomeController extends Controller {
             this.teamName = "Default Team"
         }
         window.sessionStorage.setItem("teamName", this.teamName)
-        loadPage("regions");
+        loadPage("regions", this.teamName);
     }
 }

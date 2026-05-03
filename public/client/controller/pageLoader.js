@@ -1,9 +1,11 @@
 import { HomeController } from "./HomeController.js";
 import { RegionsController } from "./RegionsController.js";
+import { ChallengeController } from "./ChallengeController.js";
 
 const controllers = {
     home: new HomeController(),
     regions: new RegionsController(),
+    challenge: new ChallengeController(),
 }
 
 window.ctrl = controllers

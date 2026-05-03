@@ -3,5 +3,8 @@
   "type": "module",
   "scripts": {
     "test": "bun test"
+  },
+  "dependencies": {
+    "js-circle-progress": "^1.0.0"
   }
 }

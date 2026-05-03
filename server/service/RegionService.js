@@ -44,7 +44,12 @@ export class RegionService {
     }
 
     get(name) {
-        return this.regions.get(name)
+        const region = this.regions.get(name)
+        if (region.name === "Delft") {
+            region.challenge = "Challenge description."
+            region.time = 0.1
+        }
+        return region
     }
     
     getPolygon(region) {
