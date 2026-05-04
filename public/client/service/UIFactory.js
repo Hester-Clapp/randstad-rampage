@@ -110,6 +110,10 @@ export class UIFactory {
             navigator.vibrate([500, 500, 500, 500, 500])
         }
 
+        function skip() {
+            startTime = document.timeline.currentTime - challengeTime
+        }
+
         function tick(currentTime) {
             const timeElapsed = currentTime - startTime
             if (startTime) display(timeElapsed)
@@ -119,8 +123,20 @@ export class UIFactory {
         }
 
         el.textContent = "Start"
-        el.addEventListener("click", start, { once:true })
+        el.addEventListener("click", start, { once: true })
+        el.addEventListener("skip", skip, { once: true })
 
+        return el
+    }
+
+    skipTimer(timer, el = document.createElement("button")) {
+        this.setup(el, "skipTimer")
+        el.innerHTML = `Skip Timer <svg width="1em" height="1em" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="0,0 0,100 60,50" fill="#ddd"/><polygon points="40,0 40,100 100,50" fill="#ddd"/></svg>`
+        el.classList.add("debug")
+        el.addEventListener("click", () => {
+            timer.dispatchEvent(new CustomEvent("skip"))
+            el.remove()
+        }, { once: true })
         return el
     }
 

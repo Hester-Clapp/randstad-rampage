@@ -19,6 +19,7 @@ export class ScoreController extends Controller {
         this.ui.header("score", this.teamName, document.querySelector("header"))
 
         const scores = await getScores()
+        if (!(this.teamName in scores)) scores[this.teamName] = { claimed: 0, locked: 0 }
         const sortedEntries = Object.entries(scores).sort((a, b) => b[1] - a[1])
 
         const list = document.querySelector("tbody")

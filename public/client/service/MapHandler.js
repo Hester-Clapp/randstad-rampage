@@ -57,20 +57,20 @@ export class MapHandler {
         await this.setOwners()
     }
 
+    async setOwners() {
+        const regions = await fetch("/statuses").then(res => res.json())
+        for (const region of regions) {
+            if (region.status.claimed) this.setOwner(region.name, region.status.owner)
+            if (region.status.locked) this.disableMarker(region.name)
+        }
+    }
+
     setOwner(regionName, teamName) {
-        console.log(teamName)
         const color = getColor(teamName)
         const region = this.regions[regionName]
         if (!region) return
         region.setStyle({color: color, fillColor: color})
         region.bringToFront()
-    }
-
-    async setOwners() {
-        const regions = await fetch("/statuses").then(res => res.json())
-        for (const region of regions) {
-            if (region.status.claimed) this.setOwner(region.name, region.status.owner)
-        }
     }
 
     disableMarker(regionName) {

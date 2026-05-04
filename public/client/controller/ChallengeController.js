@@ -21,8 +21,11 @@ export class ChallengeController extends Controller {
         this.ui.challengeTitle(this.region, document.querySelector("#title"))
         this.ui.challengeDescription(this.region, document.querySelector("#description"))
         this.ui.challengeTime(this.region, document.querySelector("#time"))
-        this.ui.challengeTimer(this.region, document.querySelector("#timer"))
-        document.querySelector("#timer").addEventListener("finish", () => this.onFinish())
+        const timer = this.ui.challengeTimer(this.region, document.querySelector("#timer"))
+        timer.addEventListener("finish", () => this.onFinish())
+        timer.addEventListener("click", () => {
+            document.querySelector("#app").appendChild(this.ui.skipTimer(timer))
+        })
     }
 
     // Reactions

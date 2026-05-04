@@ -73,6 +73,6 @@ export class RegionRepository {
 
     validate(regionName, teamName) {
         if (!regions.some(r => r.name === regionName)) throw new Error(`Cannot claim unknown region: ${regionName}`);
-        if (!teamName) throw new Error(`Invalid team name: ${teamName}`);
+        // if (!teamName) throw new Error(`Invalid team name: ${teamName}`);
     }
 }

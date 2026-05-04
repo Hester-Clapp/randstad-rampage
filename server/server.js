@@ -1,15 +1,16 @@
 import { serveDir } from "https://deno.land/std/http/file_server.ts";
 import { RegionService } from "./service/RegionService.js"
+import { AuthorisationService } from "./service/AuthorisationService.js"
 
 const services = {
     region: await RegionService.create(),
+    auth: AuthorisationService.create(),
 }
 
 async function handle(req) {
     const url = new URL(req.url);
     const { pathname, searchParams } = url;
     const segments = pathname.split("/").slice(1)
-    console.log(pathname)
     
     const GET = (req.method === "GET")
     const POST = (req.method === "POST")
@@ -77,8 +78,17 @@ async function handle(req) {
     }
 
     if (DELETE && segments[0] === "regions") {
+        const authError = services.auth.checkAdmin(req)
+        if (authError) return authError
         await services.region.reset()
         return new Response(null, { status: 200 })
+    }
+
+    if (GET && segments[0] === "admin") {
+        const authError = services.auth.checkAdmin(req)
+        if (authError) return authError
+        const html = await Deno.readFile("public/resources/pages/admin.html")
+        return new Response(html, { status: 200, headers: { "Content-Type": "text/html" } })
     }
 
     // ---- Static files ----
@@ -89,7 +99,6 @@ async function handle(req) {
 }
 
 function json(data, status = 200) {
-    // console.log(data)
     return new Response(JSON.stringify(data), {
         status,
         headers: { "Content-Type": "application/json" },

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - Randstad Rampage</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: system-ui, sans-serif;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            color: #a78bfa;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .card {
+            background: #16213e;
+            border: 1px solid #2d2d5e;
+            border-radius: 10px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1rem;
+            color: #c4b5fd;
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            margin-bottom: 0.25rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.6rem 0.75rem;
+            background: #0f0f23;
+            border: 1px solid #374151;
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #7c3aed;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 0.7rem;
+            background: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        input[type="submit"]:active {
+            background: #6d28d9;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(150%);
+            padding: 0.7rem 1.4rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success {
+            background: #065f46;
+            color: #6ee7b7;
+            border: 1px solid #10b981;
+        }
+
+        .toast.error {
+            background: #7f1d1d;
+            color: #fca5a5;
+            border: 1px solid #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Portal</h1>
+
+    <div class="card">
+        <form id="reset-all-regions">
+            <h3>Reset all regions</h3>
+            <input type="submit" value="Reset All">
+        </form>
+    </div>
+
+    <div class="card">
+        <form id="reset-one-region">
+            <h3>Reset one region</h3>
+            <label for="reset-region-name">Region name</label>
+            <input type="text" id="reset-region-name" name="region" required>
+            <input type="submit" value="Reset">
+        </form>
+    </div>
+
+    <div class="card">
+        <form id="claim-one-region">
+            <h3>Claim one region</h3>
+            <label for="claim-region-name">Region name</label>
+            <input type="text" id="claim-region-name" name="region" required>
+            <label for="claim-team-name">Team name</label>
+            <input type="text" id="claim-team-name" name="team" required>
+            <input type="submit" value="Claim">
+        </form>
+    </div>
+
+    <div class="card">
+        <form id="lock-one-region">
+            <h3>Lock one region</h3>
+            <label for="lock-region-name">Region name</label>
+            <input type="text" id="lock-region-name" name="region" required>
+            <label for="lock-team-name">Team name</label>
+            <input type="text" id="lock-team-name" name="team" required>
+            <input type="submit" value="Lock">
+        </form>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const toast = document.getElementById('toast');
+        let toastTimer;
+
+        function showToast(message, type) {
+            clearTimeout(toastTimer);
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            requestAnimationFrame(() => toast.classList.add('show'));
+            toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        async function handleFetch(promise) {
+            try {
+                const res = await promise;
+                if (res.ok) {
+                    showToast('Success', 'success');
+                } else {
+                    showToast(`Error ${res.status}`, 'error');
+                }
+            } catch {
+                showToast('Request failed', 'error');
+            }
+        }
+
+        function bindForm(id, handler) {
+            document.getElementById(id).addEventListener('submit', e => {
+                e.preventDefault();
+                const data = Object.fromEntries(
+                    [...new FormData(e.target)].map(([k, v]) => [k, encodeURIComponent(v.trim())])
+                );
+                handleFetch(handler(data));
+            });
+        }
+
+        bindForm('reset-all-regions', () => fetch('/regions', { method: 'DELETE' }));
+        bindForm('reset-one-region', ({ region }) => fetch(`/regions/${region}`, { method: 'DELETE' }));
+        bindForm('claim-one-region', ({ region, team }) => fetch(`/regions/${region}/claim?teamName=${team}`, { method: 'PUT' }));
+        bindForm('lock-one-region', ({ region, team }) => fetch(`/regions/${region}/challenge?teamName=${team}&success=true`, { method: 'PUT' }));
+    </script>
+</body>
+</html>

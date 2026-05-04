@@ -44,12 +44,7 @@ export class RegionService {
     }
 
     get(name) {
-        const region = this.regions.get(name)
-        if (region.name === "Delft") {
-            region.challenge = "Challenge description."
-            region.time = 0.05
-        }
-        return region
+        return this.regions.get(name)
     }
     
     getPolygon(region) {
@@ -71,6 +66,7 @@ export class RegionService {
         for (const region of regions) {
             const { owner, claimed, locked } = region.status
             if (!claimed) continue
+            if (owner === "Neutral") continue
             scores[owner] ??= { claimed: 0, locked: 0 }
             scores[owner].claimed++
             if (locked) scores[owner].locked++
@@ -92,15 +88,16 @@ export class RegionService {
     }
 
     async claim(regionName, teamName) {
-        return await this.regions.claim(regionName, teamName)
+        await this.regions.claim(regionName, teamName)
     }
 
     async challenge(regionName, teamName, success) {
-        return await this.regions.challenge(regionName, teamName, success)
+        await this.regions.challenge(regionName, teamName, success)
     }
 
     async reset() {
-        return await this.regions.reset()
+        await this.regions.reset()
+        await this.regions.claim("Delft", "Neutral")
     }
 
 }
