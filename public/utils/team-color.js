@@ -7,7 +7,7 @@ export function getColor(teamName) {
         hash = (Math.imul(31, hash) + teamName.charCodeAt(i)) | 0;
     }
     const hue = (hash >>> 0) % 360;
-    return `hsl(${hue}deg, 80%, 50%)`;
+    return `hsl(${hue}deg, 72%, 45%)`;
 }
 
 export function getColorNeutralBlack(teamName) {

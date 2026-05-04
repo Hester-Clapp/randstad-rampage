@@ -79,8 +79,8 @@ export class MapHandler {
         this.yahFrame = null
         this.yahCircle = L.circle([0, 0], {
             radius: 0,
-            color: "#4285F4",
-            fillColor: "#4285F4",
+            color: "var(--team-color)",
+            fillColor: "var(--team-color)",
             fillOpacity: 0.2,
             weight: 1.5,
             opacity: 0.5,

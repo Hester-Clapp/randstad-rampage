@@ -31,7 +31,7 @@ export class HomeController extends Controller {
     }
 
     updateTextColor() {
-        this.field.style.color = getColor(this.field.value)
+        document.querySelector(":root").style.setProperty("--team-color", getColor(this.field.value))
     }
 
     async login() {
@@ -41,6 +41,7 @@ export class HomeController extends Controller {
             this.teamName = "Default Team"
         }
         window.sessionStorage.setItem("teamName", this.teamName)
+        this.updateTextColor()
         loadPage("regions", this.teamName);
     }
 }

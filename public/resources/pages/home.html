@@ -26,7 +26,7 @@
             -webkit-tap-highlight-color: transparent;
 
             &:focus {
-                border-color: #4f46e5;
+                border-color: var(--team-color);
                 box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
             }
         }
@@ -39,11 +39,16 @@
                 font-size: 1rem;
             }
         }
+
+        input[type=submit] {
+            background-color: var(--team-color);
+            transition: background-color 200ms;
+        }
 }
 </style>
 
 <form>
     <label for="teamName">Team name: </label>
     <input type="text" id="teamName" autocomplete="off">
-    <input type="submit" class="blue" value="Start">
+    <input type="submit" value="Start">
 </form>

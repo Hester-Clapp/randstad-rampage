@@ -37,10 +37,15 @@ export class RegionsController extends Controller {
         document.querySelector("button#claimButton").addEventListener("click", (e) => this.claim(this.region, e), { signal: this.cleanup.signal })
         document.querySelector("button#challengeButton").addEventListener("click", (e) => this.challenge(this.region, e), { signal: this.cleanup.signal })
 
-        this.map.populate(this.geo.position)
-        
-        this.onMove(this.geo.position)
-        this.geo.addEventListener("move", (e) => this.onMove(e.detail), { signal: this.cleanup.signal })
+        this.geo.permission.then(() => {
+            this.map.populate(this.geo.position)
+
+            this.onMove(this.geo.position)
+            this.geo.addEventListener("move", (e) => this.onMove(e.detail), { signal: this.cleanup.signal })
+            
+        }).catch(e => {
+            this.map.populate({ latitude: 52, longitude: 4.35 })
+        })
     }
 
     // Utils
@@ -81,6 +86,11 @@ export class RegionsController extends Controller {
         el.style.top = clientY
         document.body.appendChild(el)
         this.addEventListener("click", () => el.remove(), true)
+    }
+
+    cleanup() {
+        super.cleanup()
+        this.geo.cleanup()
     }
 
     // Reactions
