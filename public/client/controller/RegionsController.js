@@ -2,12 +2,11 @@ import { Controller } from './Controller.js';
 import { loadPage } from './pageLoader.js';
 
 import { GeoLocationService } from '../service/GeoLocationService.js';
-import { GeoLocationMock } from '../service/GeoLocationService.js';
 import { DistanceCalculator } from '../service/DistanceCalculator.js';
 import { MapHandler } from '../service/MapHandler.js';
 import { UIFactory } from '../service/UIFactory.js';
 
-import { whichRegionContains, getRegionStatus, claimRegion } from "../../utils/requests.js"
+import { whichRegionContains, getRegionStatus, claimRegion, notifyStartChallenge } from "../../utils/requests.js"
 
 export class RegionsController extends Controller {
     constructor() {
@@ -21,12 +20,14 @@ export class RegionsController extends Controller {
 
     }
 
-    async beforeLoad(teamName) {
+    async beforeLoad(teamName, toDisable) {
         super.beforeLoad()
         
         this.region = null
         this.teamName = teamName
         this.maxDistance = 100
+
+        this.toDisable = toDisable
     }
 
     async afterLoad() {
@@ -37,14 +38,16 @@ export class RegionsController extends Controller {
         document.querySelector("button#claimButton").addEventListener("click", (e) => this.claim(this.region, e), { signal: this.cleanup.signal })
         document.querySelector("button#challengeButton").addEventListener("click", (e) => this.challenge(this.region, e), { signal: this.cleanup.signal })
 
-        this.geo.permission.then(() => {
-            this.map.populate(this.geo.position)
+        this.geo.permission.then(async () => {
+            await this.map.populate(this.geo.position)
+            if (this.toDisable) this.map.disableMarker(this.toDisable)
 
             this.onMove(this.geo.position)
             this.geo.addEventListener("move", (e) => this.onMove(e.detail), { signal: this.cleanup.signal })
-            
-        }).catch(e => {
-            this.map.populate({ latitude: 52, longitude: 4.35 })
+
+        }).catch(async () => {
+            await this.map.populate({ latitude: 52, longitude: 4.35 })
+            if (this.toDisable) this.map.disableMarker(this.toDisable)
         })
     }
 
@@ -71,12 +74,13 @@ export class RegionsController extends Controller {
     async challenge(region = this.region, event) {
         if (!region || !region.name) throw new Error("Invalid region")
         if (!region.status) throw new Error("Unknown region status")
-        if (region.status.locked) this.showError(`This region's challenge has already been successfully completed by ${region.status.owner}`, e)
-        if (this.teamName in region.status.attempts) this.showError(`You have already attempted this region's challenge!`, e)
+        if (region.status.locked) this.showError(`This region's challenge has already been successfully completed by ${region.status.owner}`, event)
+        if (this.teamName in region.status.attempts) this.showError(`You have already attempted this region's challenge!`, event)
 
         const { distance, accuracy } = this.getDistance()
-        if (distance - accuracy > this.maxDistance) this.showError(`You are too far away from the challenge location! Move closer to ${this.region.building} to start the challenge`, e)
+        if (distance - accuracy > this.maxDistance) this.showError(`You are too far away from the challenge location! Move closer to ${this.region.building} to start the challenge`, event)
         
+        notifyStartChallenge(this.region, this.teamName)
         await loadPage("challenge", this.region, this.teamName)
     }
 

@@ -12,11 +12,12 @@ export class HomeController extends Controller {
 
     async afterLoad() {
         super.afterLoad()
+        
+        this.field = document.getElementById("teamName")
 
         this.teamName = window.sessionStorage.getItem("teamName") || ""
         if (this.teamName) await this.login()
 
-        this.field = document.getElementById("teamName")
         this.teamName = this.teamName || window.localStorage.getItem("teamName") || ""
         this.field.value = this.teamName
         

@@ -20,7 +20,7 @@ async function handle(req) {
     if (region && (GET || POST || PUT) && !services.region.isValid(region)) return new Response(`Invalid region: ${region}`, { status: 400 })
 
     if (GET && segments[0] === "map-data") {
-        const data = await services.region.getAllPolygons()
+        const data = await services.region.getMapData()
         return json(data)
     }
 
@@ -36,6 +36,11 @@ async function handle(req) {
 
     if (GET && region && segments[2] === "status") {
         const status = await services.region.getStatus(region)
+        return json(status)
+    }
+
+    if (GET && segments[0] === "statuses") {
+        const status = await services.region.getAllStatuses(region)
         return json(status)
     }
 
@@ -59,6 +64,12 @@ async function handle(req) {
         const success = (searchParams.get("success") === "true")
         const status = await services.region.challenge(region, teamName, success)
         return json(status)
+    }
+
+    if (POST && segments[0] === "webhook-mock") {
+        const message = searchParams.get("message")
+        console.log(message)
+        return new Response(null, { status: 200 })
     }
 
     if (GET && segments[0] === "scores") {

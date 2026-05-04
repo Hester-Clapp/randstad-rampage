@@ -59,21 +59,21 @@ export class RegionService {
         return { ...region, polygon: reverseLatLon(polygon) }
     }
 
-    getAllPolygons() {
-        const regions = this.regions.getAllRegions()
-        return regions.map(region => this.getPolygon(region))
+    async getMapData() {
+        return this.regions.getAllRegions()
+            .map(region => this.getPolygon(region))
     }
 
     async getScores() {
-        const regions = this.regions.getAllRegions()
-        const statuses = await Promise.all(regions.map(r => this.regions.getStatus(r.name)))
-
+        const regions = await this.getAllStatuses()
         const scores = {}
-        for (const status of statuses) {
-            if (!status.claimed) continue
-            scores[status.owner] ??= { claimed: 0, locked: 0 }
-            scores[status.owner].claimed++
-            if (status.locked) scores[status.owner].locked++
+
+        for (const region of regions) {
+            const { owner, claimed, locked } = region.status
+            if (!claimed) continue
+            scores[owner] ??= { claimed: 0, locked: 0 }
+            scores[owner].claimed++
+            if (locked) scores[owner].locked++
         }
         return scores
     }
@@ -81,6 +81,14 @@ export class RegionService {
     async getStatus(regionName) {
         const status = await this.regions.getStatus(regionName)
         return (status.claimed) ? status : { ...status, owner: "Neutral"}
+    }
+
+    async getAllStatuses() {
+        const regions = this.regions.getAllRegions()
+        const statuses = await Promise.all(regions.map(async r => {
+            return {...r, status: await this.getStatus(r.name)}
+        }))
+        return statuses
     }
 
     async claim(regionName, teamName) {

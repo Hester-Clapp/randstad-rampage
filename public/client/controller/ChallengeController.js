@@ -31,7 +31,7 @@ export class ChallengeController extends Controller {
         this.ui.challengeResult(async (result) => {
             await challengeRegion(this.region, this.teamName, result)
             navigator.vibrate(50)
-            loadPage("regions", this.teamName)
+            loadPage("regions", this.teamName, result && this.region.name)
         }, document.querySelector("#result"))
     }
 }

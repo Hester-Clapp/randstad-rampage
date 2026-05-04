@@ -9,12 +9,16 @@ export class MapHandler {
 
         this.regions = {}
         this.buildings = {}
-        this.teamMarkers = {}
     }
 
     async populate({ latitude, longitude }) {
+        if (this.map) {
+            this.map.remove()
+        }
         this.yahMarker = null
         this.yahCircle = null
+        this.regions = {}
+        this.buildings = {}
         this.map = L.map('map').setView([latitude, longitude], 12);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -49,9 +53,12 @@ export class MapHandler {
             this.regions[region.name] = polygon
             this.buildings[region.name] = marker
         }
+
+        await this.setOwners()
     }
 
     setOwner(regionName, teamName) {
+        console.log(teamName)
         const color = getColor(teamName)
         const region = this.regions[regionName]
         if (!region) return
@@ -59,11 +66,21 @@ export class MapHandler {
         region.bringToFront()
     }
 
+    async setOwners() {
+        const regions = await fetch("/statuses").then(res => res.json())
+        for (const region of regions) {
+            if (region.status.claimed) this.setOwner(region.name, region.status.owner)
+        }
+    }
+
     disableMarker(regionName) {
         const marker = this.buildings[regionName]
         if (!marker) return
         const el = marker.getElement()
-        if (el) el.style.filter = 'grayscale(100%) brightness(0.5)'
+        if (el) {
+            el.style.filter = 'grayscale(100%) opacity(0.5)'
+            el.style.pointerEvents = 'none'
+        }
         marker.off('click')
     }
 
