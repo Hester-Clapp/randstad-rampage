@@ -1,7 +1,6 @@
 [
     {
         "name": "Delft",
-		"color": 0,
         "building": "Stadhuis Delft",
         "station": "Delft (NS)",
         "position": {
@@ -14,7 +13,6 @@
     },
     {
         "name": "Den Haag Centrum",
-		"color": 1,
         "building": "Het Oude Stadhuis",
         "station": "Gravenstraat (HTM), Centrum (HTM), Spui (HTM)",
         "position": {
@@ -27,7 +25,6 @@
     },
     {
         "name": "Den Haag Leyenburg",
-		"color": 2,
         "building": "Haga Ziekenhuis",
         "station": "Leyenburg (HTM)",
         "position": {
@@ -40,7 +37,6 @@
     },
     {
         "name": "Dordrecht",
-		"color": 2,
         "building": "Stadhuis Dordrecht",
         "station": "Dordrecht (NS)",
         "position": {
@@ -53,7 +49,6 @@
     },
     {
         "name": "Gouda",
-		"color": 2,
         "building": "Stadhuis Gouda",
         "station": "Gouda (NS)",
         "position": {
@@ -66,7 +61,6 @@
     },
     {
         "name": "Leiden",
-		"color": 3,
         "building": "Stadhuis Leiden",
         "station": "Leiden Centraal (NS)",
         "position": {
@@ -79,7 +73,6 @@
     },
     {
         "name": "Leidschendam",
-		"color": 2,
         "building": "Westfield Mall of the Netherlands",
         "station": "Mall of the Netherlands (HTM), Weigelia (HTM)",
         "position": {
@@ -92,7 +85,6 @@
     },
     {
         "name": "Pijnacker",
-		"color": 3,
         "building": "H. Johannes de Doperkerk",
         "station": "Pijnacker Centrum (RET)",
         "position": {
@@ -105,7 +97,6 @@
     },
     {
         "name": "Rotterdam Centrum",
-		"color": 2,
         "building": "Stadhuis Rotterdam",
         "station": "Stadhuis (RET)",
         "position": {
@@ -118,7 +109,6 @@
     },
     {
         "name": "Rotterdam Kralingen",
-		"color": 0,
         "building": "Molen De Ster",
         "station": "Essenlaan (RET), Voorschoterlaan (RET)",
         "position": {
@@ -131,7 +121,6 @@
     },
     {
         "name": "Rotterdam Zuid",
-		"color": 1,
         "building": "Ahoy Arena",
         "station": "Zuidplein (RET)",
         "position": {
@@ -144,7 +133,6 @@
     },
     {
         "name": "Scheveningen",
-		"color": 0,
         "building": "Grand Hotel Amrâth Kurhaus",
         "station": "Kurhaus (HTM)",
         "position": {
@@ -157,7 +145,6 @@
     },
     {
         "name": "Spijkenisse",
-		"color": 3,
         "building": "Euro Banknote Bridges",
         "station": "Spijkenisse Centrum (RET)",
         "position": {
@@ -170,7 +157,6 @@
     },
     {
         "name": "Vlaardingen",
-		"color": 1,
         "building": "Stadhuis Vlaardingen",
         "station": "Vlaardingen Centrum (RET)",
         "position": {
@@ -183,7 +169,6 @@
     },
     {
         "name": "Zoetermeer",
-		"color": 1,
         "building": "Gemeente Zoetermeer",
         "station": "Stadhuis (HTM)",
         "position": {
